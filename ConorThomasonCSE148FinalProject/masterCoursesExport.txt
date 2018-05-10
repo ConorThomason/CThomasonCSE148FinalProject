@@ -1,0 +1,14 @@
+Computer Science College Seminar&&& CSE110&&& 1&&& 
+Fundamentals of Programming&&& CSE118&&& Intro to Java Prog: Brief(My ProgLab Access Card)&&& Liang&&& Pearson&&& $115.00&&& 9780134672977&&& 3&&& 
+Object-Oriented Programming&&& CSE148&&& Intro to Java Prog: Brief(My ProgLab Access Card)&&& Liang&&& Pearson&&& $115.00&&& 9780134672977&&& 4&&& 
+Data Structures and Algorithms&&& CSE218&&& 3&&& 
+Computer Architecture and Organization&&& CSE222&&& Digital Design & Computer Architecture&&& Harris&&& Morgan Kaufmann Publishers&&& $89.95&&& 9780123944245&&& 3&&& 
+Advanced OOP&&& CSE248&&& 3&&& 
+Calculus with Analytic Geometry I&&& MAT141&&& Single Variable Calculus (w/Enh Web Assign&&& Stewart&&& Cengage Learning&&& $157.25&&& 9781305524675&&& 4&&& 
+Calculus with Analytic Geometry II&&& MAT142&&& Single Variable Calculus (w/Enh Web Assign&&& Stewart&&& Cengage Learning&&& $157.25&&& 9781305524675&&& 4&&& 
+Discrete Mathematics&&& MAT205&&& Intro to Java Prog: Brief(My ProgLab Access Card)&&& Liang&&& Pearson&&& $115.00&&& 9780134672977&&& 4&&& 
+Applied Linear Algebra&&& MAT210&&& Linear Algebra: Models, Methods & Theory&&& Tucker&&& XanEdu&&& $82.75&&& 9781506696720&&& 3&&& 
+Language, Logic and Proof&&& MAT200&&& 3&&& 
+Calculus with Analytic Geometry III&&& MAT203&&& Calculus: Multivariable Calculus&&& Stewart&&& Cengage Learning&&& $305.75&&& 9781305266643&&& 4&&& 
+Differential Equations&&& MAT204&&& 4&&& 
+Linear Algebra&&& MAT206&&& 4&&& 
