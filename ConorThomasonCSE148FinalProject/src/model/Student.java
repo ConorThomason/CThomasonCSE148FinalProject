@@ -82,7 +82,7 @@ public class Student extends Person implements java.io.Serializable {
 		masterCourseBag.importData("DEFAULT");
 		for (int i = 0; i < courseBag.getCourseCount(); i++) {
 			String[] courseInfo = courseBag.getCourseInfo(i);
-			if (courseInfo[1].equals("IP") || courseInfo[1].equals("N/A")) {
+			if (courseInfo[1].equals("IP") || courseInfo[1].equals("N/A") || courseInfo[1].equals("W")) {
 				break;
 			}
 			else {

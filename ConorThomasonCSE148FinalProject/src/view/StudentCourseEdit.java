@@ -46,22 +46,11 @@ public class StudentCourseEdit {
 	private Faculty selectedFaculty;
 	public StudentCourseEdit(AllBags allBags, ScreenSizes screenSizes, Student selectedStudent, Stage editPersonStage) {
 		this.editPersonStage = editPersonStage;
-		this.inputCourseBag = selectedStudent.getCourseBagArray();
+		this.courseBag = selectedStudent.getCourseBagArray();
 		this.allBags = allBags;
 		this.selectedStudent = selectedStudent;
-		courseBag = new CourseBag(inputCourseBag.getCourseCount() + 20);
-		copyCourseBag(inputCourseBag, courseBag);
 		buildTable();
 		buildPane();
-	}
-	private void copyCourseBag(CourseBag inputCourseBag, CourseBag courseBag) {
-		for (int i = 0; i < inputCourseBag.getCourseCount(); i++) {
-			String[] courseInfo = inputCourseBag.getCourseInfo(i);
-			String courseNumber = courseInfo[0];
-			courseBag.addCourseNumber(courseNumber);
-			courseBag.setCourseType(courseNumber, courseInfo[2]);
-			courseBag.setGrade(courseNumber, courseInfo[1]);
-		}
 	}
 	public void buildPane() {
 		tablePane = new BorderPane();
@@ -146,9 +135,6 @@ public class StudentCourseEdit {
 				);
 		courseTypeField.setValue(selectedCourse.getCourseType());
 		courseTypeField.setMaxWidth(editPersonStage.getWidth());
-		
-		
-		
 		leftBox.getChildren().addAll(courseGradeLabel, courseTypeLabel);
 		rightBox.getChildren().addAll(courseGradeField, courseTypeField);
 		textDetails.getChildren().addAll(leftBox, rightBox);
@@ -182,7 +168,7 @@ public class StudentCourseEdit {
 	public TextField getCourseGradeField() {
 		return courseGradeField;
 	}
-	public ComboBox getCourseTypeField() {
+	public ComboBox<String> getCourseTypeField() {
 		return courseTypeField;
 	}
 }

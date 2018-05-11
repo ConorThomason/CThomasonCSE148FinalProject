@@ -12,6 +12,8 @@ import java.io.Writer;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import view.Util;
+
 /*
  * add DONE
  * display DONE
@@ -94,8 +96,15 @@ public class CourseBag implements java.io.Serializable {
 		courses[this.find(courseNumber)][CTYPE] = type;
 	}
 	public void setGrade(String courseNumber, String grade) {
+		grade.toUpperCase();
 		if (grade != null) {
-			courses[this.find(courseNumber)][CGRADE] = grade.toUpperCase();
+			if (grade.equals("A") || grade.equals("B") || grade.equals("C") || grade.equals("D") || grade.equals("F") || grade.equals("W") || grade.equals("IP") || grade.equals("N/A")) {
+				courses[this.find(courseNumber)][CGRADE] = grade.toUpperCase();
+			}
+			else {
+				Util.displayError("Invalid input for Student Grade");
+				courses[this.find(courseNumber)][CGRADE] = "N/A";
+			}
 		}
 		else
 			courses[this.find(courseNumber)][CGRADE] = "N/A";
@@ -113,21 +122,26 @@ public class CourseBag implements java.io.Serializable {
 		return itemCount;
 	}
 	public void addCourseNumber(String courseNumber) {
-		this.courses[itemCount++][CNUMBER] = courseNumber;
+		this.courses[itemCount++][CNUMBER] = courseNumber;	
 	}
 	public String delete(String courseNumber) {
-		int index = this.find(courseNumber);
+ 		int index = this.find(courseNumber);
 		if (index == -1) {
 			System.out.println("This Course does not exist.");
 			return null;
 		}
 		else {
 			String deletedCourse = courses[index][CNUMBER];
-			for (int i = 0; i < itemCount-1; i++) {
-				int newIndex = i+1;
-				courses[i][CNUMBER] = courses[newIndex][CNUMBER];
-				courses[i][CGRADE] = courses[newIndex][CGRADE];
-				courses[i][CTYPE] = courses[newIndex][CTYPE];
+			for (int i = index; i < itemCount-1; i++) {
+				if (i == itemCount-1)
+				{
+					courses[i] = null;
+				}
+				else {
+				courses[i][CNUMBER] = courses[i+1][CNUMBER];
+				courses[i][CGRADE] = courses[i+1][CGRADE];
+				courses[i][CTYPE] = courses[i+1][CTYPE];
+				}
 			}
 			itemCount--;
 			return deletedCourse;
@@ -147,7 +161,7 @@ public class CourseBag implements java.io.Serializable {
 			if (course[CTYPE].equals("TAKING")) {
 				course[CGRADE] = "IP";
 			}
-			courses[itemCount++][CNUMBER] = course[CNUMBER];
+			this.addCourseNumber(course[CNUMBER]);
 			this.setGrade(course[CNUMBER], course[CGRADE]);
 			this.setCourseType(course[CNUMBER], course[CTYPE]);
 		}

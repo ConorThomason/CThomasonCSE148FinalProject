@@ -65,7 +65,7 @@ public class PersonEdit {
 		editPersonStage = new Stage();
 		editPersonStage.setTitle("Edit a Person");
 		editPersonStage.setHeight(screenSizes.getScreenHeight() / 2);
-		editPersonStage.setWidth(screenSizes.getScreenWidth() / 6);
+		editPersonStage.setWidth(screenSizes.getScreenWidth() / 5);
 	}
 	private void buildScene(Faculty selectedFaculty) {
 		BorderPane inputRoot = new BorderPane();
@@ -139,8 +139,8 @@ public class PersonEdit {
 			selectedStudent.getCourseBagArray().delete(courseCopy.getCourseNumber());
 			selectedStudent.getCourseBagArray().add(courseCopy.getCourseBagStyle());
 			PersonEdit newEditPersonStage = new PersonEdit(allBags, screenSizes, selectedStudent);
-			newEditPersonStage.getStage().show();
 			editPersonStage.close();
+			newEditPersonStage.getStage().show();
 //			VBox newStudentDetails = new VBox(5);
 //			newStudentDetails.getChildren().addAll(buildDetails(selectedStudent), buildCourseEditPane());
 //			newStudentDetails.setAlignment(Pos.CENTER);
