@@ -41,6 +41,7 @@ public class PersonEdit {
 	private TextField majorField;
 	private TextField titleField;
 	private TextField salaryField;
+	private TextField addButtonField;
 	private StudentCourseEdit courseEdit;
 	private CompactCourse selectedCourse;
 	private Button saveButton, cancelButton, addButton, applyButton;
@@ -104,7 +105,7 @@ public class PersonEdit {
 		applyButton = new Button("Apply Course Changes");
 		applyButtonBox.getChildren().add(applyButton);
 		Label addButtonLabel = new Label("Course Number:");
-		TextField addButtonField = new TextField();
+		addButtonField = new TextField();
 		leftBox.getChildren().add(addButtonLabel);
 		rightBox.getChildren().add(addButtonField);
 		completeBox.getChildren().addAll(leftBox, rightBox, addButton, applyButtonBox);
@@ -148,6 +149,20 @@ public class PersonEdit {
 		});
 		cancelButton.setOnAction(e ->{
 			editPersonStage.close();
+		});
+		addButton.setOnAction(e -> {
+			if (allBags.getMasterCourseBag().find(addButtonField.getText()) != -1) {
+				if (selectedStudent.getCourseBagArray().find(addButtonField.getText()) == -1) 
+				selectedStudent.getCourseBagArray().addByCourseNumber(addButtonField.getText());
+				else
+					Util.displayError("Course is already contained in Student");
+			}
+			else {
+				Util.displayError("Course was not found in Master Course Bag; please add it to the Master before continuing");
+			}
+			PersonEdit newEditPersonStage = new PersonEdit(allBags, screenSizes, selectedStudent);
+			editPersonStage.close();
+			newEditPersonStage.getStage().show();
 		});
 		personAddScene = new Scene(inputRoot, editPersonStage.getHeight(), editPersonStage.getWidth());
 	}

@@ -29,6 +29,7 @@ public class CourseBag implements java.io.Serializable {
 	private final int CNUMBER = 0;
 	private final int CGRADE = 1;
 	private final int CTYPE = 2;
+	private final int DEFAULTMAX = 100;
 	private int itemCount;
 
 	/*					 Course   Grade   Type, Type = "NEED", "HAVE", "TAKING", "NOT REQUIRED"
@@ -96,8 +97,9 @@ public class CourseBag implements java.io.Serializable {
 		courses[this.find(courseNumber)][CTYPE] = type;
 	}
 	public void setGrade(String courseNumber, String grade) {
-		grade.toUpperCase();
+		
 		if (grade != null) {
+			grade.toUpperCase();
 			if (grade.equals("A") || grade.equals("B") || grade.equals("C") || grade.equals("D") || grade.equals("F") || grade.equals("W") || grade.equals("IP") || grade.equals("N/A")) {
 				courses[this.find(courseNumber)][CGRADE] = grade.toUpperCase();
 			}
@@ -122,7 +124,13 @@ public class CourseBag implements java.io.Serializable {
 		return itemCount;
 	}
 	public void addCourseNumber(String courseNumber) {
-		this.courses[itemCount++][CNUMBER] = courseNumber;	
+		try {
+		this.courses[itemCount++][CNUMBER] = courseNumber;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			itemCount--;
+			increaseArraySize();
+			addCourseNumber(courseNumber);
+		}
 	}
 	public String delete(String courseNumber) {
  		int index = this.find(courseNumber);
@@ -170,6 +178,19 @@ public class CourseBag implements java.io.Serializable {
 		String[] provided = {course.getCourseNumber(), null, null};
 		this.add(provided);
 	}
+	public void addByCourseNumber(String courseNumber) {
+		String[] courseToAdd = {courseNumber, null, null};
+		this.add(courseToAdd);
+	}
+	public void increaseArraySize() {
+		String[][] newCourses = new String[courses.length + 1][3];
+		for (int i = 0; i < courses.length; i++) {
+			newCourses[i][0] = courses[i][0];
+			newCourses[i][1] = courses[i][2];
+			newCourses[i][2] = courses[i][2];
+		}
+		courses = newCourses.clone();
+	}
 	public void save() {
 		ObjectOutputStream objectOutput = null;
 		try {
@@ -177,7 +198,7 @@ public class CourseBag implements java.io.Serializable {
 			objectOutput = new ObjectOutputStream(fileOutput);
 			objectOutput.writeObject(courses);
 			objectOutput.writeObject(itemCount);
-		}
+		}	
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
