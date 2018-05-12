@@ -164,6 +164,8 @@ public class MajorPane {
 		table.setOnMousePressed(e ->{
 			updateSelectedCourse();
 			refreshData(allBags);
+			table.getColumns().get(0).setVisible(false);
+			table.getColumns().get(0).setVisible(true);
 			buildDetails();
 			buildPane();
 			root.setCenter(this.getPane());

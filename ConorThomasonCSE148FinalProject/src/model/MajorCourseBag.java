@@ -68,8 +68,8 @@ public class MajorCourseBag implements Serializable {
 		}
 		else {
 			String deletedCourse = courseNumber[index];
-			for (int i = index; i < itemCount-1; i++) {
-				if (i == itemCount-1)
+			for (int i = index; i <= courseNumber.length - 1; i++) {
+				if (i == courseNumber.length - 1)
 				{
 					courseNumber[i] = null;
 				}
@@ -78,6 +78,7 @@ public class MajorCourseBag implements Serializable {
 				}
 			}
 			itemCount--;
+			trimArray();
 			courseNumberArrayToString();
 			return deletedCourse;
 		}
@@ -92,6 +93,15 @@ public class MajorCourseBag implements Serializable {
 		}
 		courseNumberStringFormat = convertedString;
 	}
+	
+	public void trimArray() {
+		String[] newArray = new String[courseNumber.length - 1];
+		for (int i = 0; i < courseNumber.length - 1; i++) {
+			newArray[i] = courseNumber[i];
+		}
+		courseNumber = newArray.clone();
+	}
+	
 	public String getMajorName() {
 		return majorName;
 	}
@@ -108,7 +118,7 @@ public class MajorCourseBag implements Serializable {
 			return true;
 	}
 	public int find(String inputNumber) {
-		for (int i = 0; i < itemCount; i++) {
+		for (int i = 0; i < courseNumber.length; i++) {
 			if (inputNumber.equals(courseNumber[i])) {
 					return i;
 			}
