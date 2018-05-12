@@ -58,7 +58,13 @@ public class CourseAdd {
 			MasterCourseBag bagToConvert = allBags.getMasterCourseBag();
 			MasterCourseBag convertBag = new MasterCourseBag(bagToConvert.getNumberOfCourses() + 1);
 			Textbook constructorTextbook = allBags.getTextbookBag().getTextbook(textbookIsbnField.getText());
-			Course course = new Course(courseTitleField.getText(), courseNumberField.getText(), constructorTextbook, Integer.parseInt(creditsField.getText()));
+			int constructorCredits = 0;
+			try {
+				constructorCredits = Integer.parseInt(creditsField.getText());
+			} catch(NumberFormatException f) {
+				Util.displayError("Invalid input for credits, value defaulted to 0");
+			}
+			Course course = new Course(courseTitleField.getText(), courseNumberField.getText(), constructorTextbook, constructorCredits);
 			for (int i = 0; i < bagToConvert.getNumberOfCourses(); i++) {
 				convertBag.add(bagToConvert.getCourse(i));
 			}

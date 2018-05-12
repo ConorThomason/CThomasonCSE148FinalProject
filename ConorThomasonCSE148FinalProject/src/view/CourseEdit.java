@@ -51,8 +51,8 @@ public class CourseEdit {
 	private void buildStage() {
 		editCourseStage = new Stage();
 		editCourseStage.setTitle("Edit a Course");
-		editCourseStage.setHeight(screenSizes.getScreenHeight() / 1.8);
-		editCourseStage.setWidth(screenSizes.getScreenWidth() / 5);
+		editCourseStage.setHeight(screenSizes.getScreenHeight() / 5.5);
+		editCourseStage.setWidth(screenSizes.getScreenWidth() / 7);
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();
@@ -63,16 +63,6 @@ public class CourseEdit {
 		buttonBox.setAlignment(Pos.CENTER);
 		inputRoot.setBottom(buttonBox);
 		BorderPane.setMargin(buttonBox, new Insets(10));
-		saveButton.setOnAction(e ->{
-			selectedCourse.setCourseTitle(courseTitleField.getText());
-			selectedCourse.setCourseNumber(courseNumberField.getText());
-			selectedCourse.setTextbookIsbn(textbookIsbnField.getText());
-			selectedCourse.setNumberOfCredits(Integer.parseInt(creditsField.getText()));
-			editCourseStage.close();
-		});
-		cancelButton.setOnAction(e ->{
-			editCourseStage.close();
-		});
 
 		//Acquires a VBox containing all of the text input boxes.
 		inputRoot.setTop(courseDetails);
@@ -116,7 +106,11 @@ public class CourseEdit {
 			selectedCourse.setCourseTitle(courseTitleField.getText());
 			selectedCourse.setCourseNumber(courseNumberField.getText());
 			selectedCourse.setTextbookIsbn(textbookIsbnField.getText());
-			selectedCourse.setNumberOfCredits(Integer.parseInt(creditsField.getText()));
+			try {
+				selectedCourse.setNumberOfCredits(Integer.parseInt(creditsField.getText()));
+			} catch(NumberFormatException f) {
+				Util.displayError("Invalid input for credits, value will remain unchanged");
+			}
 			editCourseStage.close();
 
 		});
