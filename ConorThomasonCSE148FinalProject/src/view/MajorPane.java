@@ -164,6 +164,7 @@ public class MajorPane {
 		table.setOnMousePressed(e ->{
 			updateSelectedCourse();
 			refreshData(allBags);
+			allBags.getAllMajorBags().exportAllMajors();
 			table.getColumns().get(0).setVisible(false);
 			table.getColumns().get(0).setVisible(true);
 			buildDetails();
@@ -189,6 +190,7 @@ public class MajorPane {
 	private VBox buildUniversal(VBox mainDetails) {
 		updateSelectedCourse();
 		
+		try {
 		Label majorHeader = new Label("Major");
 		majorHeader.setStyle("-fx-font-size: 24");
 		//Main Details Section (Top of BorderPane)
@@ -209,6 +211,11 @@ public class MajorPane {
 
 		mainDetails.getChildren().addAll(majorHeader, majorName, majorNameOutput, courses, coursesOutput);
 		return mainDetails;
+		}catch(NullPointerException e) {
+			Label statusLabel = new Label("No Major Selected");
+			mainDetails.getChildren().add(statusLabel);
+			return mainDetails;
+		}
 	}
 	public BorderPane getPane() {
 		return borderPane;

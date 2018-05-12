@@ -80,6 +80,7 @@ public class Demo {
 		AllMajorBags allMajorBags = new AllMajorBags("DEFAULT");
 		allMajorBags.save();
 		allMajorBags.load();
+		allMajorBags.exportAllMajors();
 		System.out.println(allMajorBags.toString());
 //		generateData();
 //		personBag.exportData();

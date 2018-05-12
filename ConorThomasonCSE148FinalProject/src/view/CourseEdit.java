@@ -105,7 +105,15 @@ public class CourseEdit {
 		saveButton.setOnAction(e ->{
 			selectedCourse.setCourseTitle(courseTitleField.getText());
 			selectedCourse.setCourseNumber(courseNumberField.getText());
-			selectedCourse.setTextbookIsbn(textbookIsbnField.getText());
+			if (allBags.getTextbookBag().find(textbookIsbnField.getText()) != -1) {
+				selectedCourse.setTextbookIsbn(textbookIsbnField.getText());
+			}
+			else if (textbookIsbnField.getText().equals("")) {
+				selectedCourse.setTextbookIsbn(null);
+			}
+			else {
+				Util.displayError("Textbook ISBN not found, previous ISBN will be saved");
+			}
 			try {
 				selectedCourse.setNumberOfCredits(Integer.parseInt(creditsField.getText()));
 			} catch(NumberFormatException f) {

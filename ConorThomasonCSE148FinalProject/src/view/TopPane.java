@@ -1,6 +1,8 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
@@ -8,10 +10,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.*;
 
 
 public class TopPane {
+	private Stage stage;
 	private MenuBar menuBar;
 	private Menu viewMenu;
 	private MenuItem viewMainItem;
@@ -19,18 +23,35 @@ public class TopPane {
 	private MenuItem viewTextbooksItem;
 	private MenuItem viewCoursesItem;
 	private MenuItem viewMajorsItem;
+	private Menu importExportMenu;
+	private Menu importMenu;
+	private MenuItem importTextbooksItem;
+	private MenuItem importPeopleItem;
+	private MenuItem importCoursesItem;
+	private Menu exportMenu;
+	private MenuItem exportTextbooksItem;
+	private MenuItem exportPeopleItem;
+	private MenuItem exportCoursesItem;
+	private AllBags allBags;
+	private BorderPane root;
+	private ScreenSizes screenSizes;
+	
 	//Make the menuItems global, define their actions here, define the TopPane, set action in Start.
-	public TopPane(AllBags allBags) {
-		buildMenuBar(allBags);
+	public TopPane(AllBags allBags, Stage stage, BorderPane root, ScreenSizes screenSizes) {
+		this.stage = stage;
+		this.root = root;
+		this.allBags = allBags;
+		this.screenSizes = screenSizes;
+		buildMenuBar(allBags, screenSizes);
 	}
-	private void buildMenuBar(AllBags allBags) {
+	private void buildMenuBar(AllBags allBags, ScreenSizes screenSizes) {
 		Menu fileMenu = new Menu("File");
 		MenuItem  newMenuItem = new MenuItem("New");
 		MenuItem saveMenuItem = new MenuItem("Save All");
 		saveMenuItem.setOnAction(e -> {
 			allBags.save();
 		});
-		MenuItem loadMenuItem = new MenuItem("Open");
+		MenuItem loadMenuItem = new MenuItem("Load All");
 		loadMenuItem.setOnAction(e -> {
 			allBags.load();
 		});
@@ -39,7 +60,7 @@ public class TopPane {
 		exitMenuItem.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Are you sure you want to continue?");
-			alert.setHeaderText("Any data that has not been saved may be lost...");
+			alert.setHeaderText("Any data that hasn't been saved may be lost...");
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
@@ -54,10 +75,121 @@ public class TopPane {
 		viewCoursesItem = new MenuItem("Courses");
 		viewMajorsItem = new MenuItem("Majors");
 		
+		importExportMenu = new Menu("Import/Export");
+		importMenu = new Menu("Import");
+		
+		importTextbooksItem = new MenuItem("Textbooks");
+		importTextbooksItem.setOnAction(e ->{
+			String fileToImport = Util.getFile(stage);
+			if (fileToImport == null)
+				fileToImport = "DEFAULT";
+			rebuildScene(screenSizes);
+			allBags.getTextbookBag().importData(fileToImport);
+		});
+		importPeopleItem = new MenuItem("People");
+		importPeopleItem.setOnAction(e ->{
+			String fileToImport = Util.getFile(stage);
+			if (fileToImport == null)
+				fileToImport = "DEFAULT";
+			rebuildScene(screenSizes);
+			allBags.getPeopleBag().importData(fileToImport);
+		});
+		importCoursesItem = new MenuItem("Courses");
+		importCoursesItem.setOnAction(e ->{
+			String fileToImport = Util.getFile(stage);
+			if (fileToImport == null)
+				fileToImport = "DEFAULT";
+			rebuildScene(screenSizes);
+			allBags.getMasterCourseBag().importData(fileToImport);
+		});
+		exportMenu = new Menu("Export");
+		exportTextbooksItem = new MenuItem("Textbooks");
+		exportTextbooksItem.setOnAction(e ->{
+			allBags.getTextbookBag().exportData();
+		});
+		exportPeopleItem = new MenuItem("People");
+		exportPeopleItem.setOnAction(e ->{
+			allBags.getPeopleBag().exportData();
+		});
+		exportCoursesItem = new MenuItem("Courses");
+		exportCoursesItem.setOnAction(e ->{
+			allBags.getMasterCourseBag().exportData();
+		});
+		viewMainItem.setOnAction(e ->{
+			MainPane buttonMainPane = new MainPane(screenSizes, root, allBags);
+			screenSizes.setCurrentScene(0);
+			root.setCenter(buttonMainPane.getPane());
+			});
+		viewPeopleItem.setOnAction(e ->{
+			PeoplePane buttonPeoplePane = new PeoplePane(allBags, screenSizes, root);
+			screenSizes.setCurrentScene(1);
+			root.setCenter(buttonPeoplePane.getPane());
+		});
+		viewCoursesItem.setOnAction(e ->{
+			CoursePane buttonCoursesPane = new CoursePane(allBags, screenSizes, root);
+			screenSizes.setCurrentScene(2);
+			root.setCenter(buttonCoursesPane.getPane());
+		});
+		viewTextbooksItem.setOnAction(e ->{
+			TextbookPane buttonTextbookPane = new TextbookPane(allBags, screenSizes, root);
+			screenSizes.setCurrentScene(3);
+			root.setCenter(buttonTextbookPane.getPane());
+		});
+		viewMajorsItem.setOnAction(e ->{
+			MajorPane buttonMajorPane = new MajorPane(allBags, screenSizes, root);
+			screenSizes.setCurrentScene(4);
+			root.setCenter(buttonMajorPane.getPane());
+		});
+		stage.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override public void changed(ObservableValue o, Number oldWidth, Number newWidth) {
+				if (screenSizes.getCurrentScene() == 0) {
+					MainPane mainPane = new MainPane(screenSizes, root, allBags);
+					root.setCenter(mainPane.getPane());
+				}
+				else if (screenSizes.getCurrentScene() == 1) {
+					PeoplePane peoplePane = new PeoplePane(allBags, screenSizes, root);
+					root.setCenter(peoplePane.getPane());
+				}
+				else if (screenSizes.getCurrentScene() == 2) {
+					CoursePane coursePane = new CoursePane(allBags, screenSizes, root);
+					root.setCenter(coursePane.getPane());
+				}
+				else if (screenSizes.getCurrentScene() == 3) {
+					TextbookPane textbookPane = new TextbookPane(allBags, screenSizes, root);
+					root.setCenter(textbookPane.getPane());
+				}
+				else if (screenSizes.getCurrentScene() == 4) {
+					MajorPane majorPane = new MajorPane(allBags, screenSizes, root);
+					root.setCenter(majorPane.getPane());
+				}
+			}
+		});
+		
 		fileMenu.getItems().addAll(newMenuItem, loadMenuItem, saveMenuItem, exitMenuItem);
 		viewMenu.getItems().addAll(viewMainItem, viewPeopleItem, viewTextbooksItem, viewCoursesItem, viewMajorsItem);
+		importMenu.getItems().addAll(importTextbooksItem, importPeopleItem, importCoursesItem);
+		exportMenu.getItems().addAll(exportTextbooksItem, exportPeopleItem, exportCoursesItem);
+		
+		importExportMenu.getItems().addAll(importMenu, exportMenu);
 		menuBar = new MenuBar(); //Removal of this breaks everything. Don't remove it.
-		menuBar.getMenus().addAll(fileMenu, viewMenu);
+		menuBar.getMenus().addAll(fileMenu, viewMenu, importExportMenu);
+	}
+	public void rebuildScene(ScreenSizes screenSizes) {
+		int currentScene = screenSizes.getCurrentScene();
+		switch (currentScene) {
+		case 1:
+			viewPeopleItem.fire();
+			break;
+		case 2:
+			viewCoursesItem.fire();
+			break;
+		case 3:
+			viewTextbooksItem.fire();
+			break;
+		case 4:
+			viewMajorsItem.fire();
+			break;
+		}
 	}
 	public MenuItem getViewMajorsItem() {
 		return viewMajorsItem;

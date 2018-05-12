@@ -60,9 +60,14 @@ public class MajorAdd {
 			for (int i = 0; i < bagToConvert.getItemCount(); i++) {
 				convertBag.add(bagToConvert.getMajor(i));
 			}
-			convertBag.add(majorBag);
-			allBags.setAllMajorBags(convertBag);
-			addMajorStage.close();
+			if (convertBag.isDuplicate(majorBag.getMajorName())){
+				Util.displayError("Major already exists");
+			}
+			else {
+				convertBag.add(majorBag);
+				allBags.setAllMajorBags(convertBag);
+				addMajorStage.close();
+			}
 		});
 		cancelButton.setOnAction(e ->{
 			addMajorStage.close();

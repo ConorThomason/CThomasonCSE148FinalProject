@@ -84,7 +84,7 @@ public class Course implements java.io.Serializable {
 		if (textbookAssigned == null) {
 			returnedString += "No Textbook Assigned \nNumber Of Credits: " + numberOfCredits + "\n";
 		}
-		else if (textbookAssigned.getIsbn().equals("TOBEINPUT")) {
+		else if (textbookAssigned.getIsbn().equals("")) {
 			returnedString += "No Textbook Assigned \nNumber Of Credits: " + numberOfCredits + "\n";
 		}
 		else {

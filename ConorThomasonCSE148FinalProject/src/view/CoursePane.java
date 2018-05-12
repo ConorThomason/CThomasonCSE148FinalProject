@@ -166,6 +166,7 @@ public class CoursePane {
 
 		table.setItems(refreshData(allBags));
 		table.getColumns().addAll(courseTitleCol, courseNumberCol, isbnCol, creditsCol);
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.getSortOrder().add(courseNumberCol);
 		table.getSelectionModel().selectFirst();
 		table.setOnMousePressed(e ->{
@@ -192,11 +193,13 @@ public class CoursePane {
 	private VBox buildUniversal(VBox mainDetails) {
 		updateSelectedCourse();
 		
+		try {
 		Label courseHeader = new Label("Course");
 		courseHeader.setStyle("-fx-font-size: 24");
 		//Main Details Section (Top of BorderPane)
 		details.setPadding(new Insets(5));
-
+		
+		
 		Label courseTitle = new Label("Course Title: ");
 		courseTitle.setStyle("-fx-font-weight: bold");
 		Label courseTitleOutput = new Label(currentlySelected.getCourseTitle());
@@ -222,6 +225,11 @@ public class CoursePane {
 		mainDetails.getChildren().addAll(courseHeader, courseTitle, courseTitleOutput, courseNumber, 
 				courseNumberOutput, isbn, isbnOutput, credits, creditsOutput);
 		return mainDetails;
+		}catch(NullPointerException e) {
+			Label statusLabel = new Label("No Course Selected");
+			mainDetails.getChildren().add(statusLabel);
+			return mainDetails;
+		}
 	}
 	public BorderPane getPane() {
 		return borderPane;

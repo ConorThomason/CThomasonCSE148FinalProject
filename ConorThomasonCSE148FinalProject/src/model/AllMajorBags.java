@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -35,8 +37,8 @@ public class AllMajorBags implements Serializable {
 		}
 		return -1;
 	}
-	public boolean isDuplicate(String isbn) {
-		if (this.find(isbn) == -1)
+	public boolean isDuplicate(String inputNumber) {
+		if (this.find(inputNumber) == -1)
 			return false; //It's not a duplicate, thanks to the find method returning -1 if no isbn is found
 		else
 			return true;
@@ -155,6 +157,35 @@ public class AllMajorBags implements Serializable {
 			e.printStackTrace();
 		} finally {
 			input.close();
+		}
+	}
+	public void exportAllMajors() { //Appends to an existing majorFile.txt - if it doesn't exist, it creates a new one.
+		File checkFile = new File("majorFile.txt");
+		Writer output = null;
+		try {
+			if (!checkFile.exists()) {
+				checkFile.createNewFile();
+			}
+			output = new FileWriter(checkFile);
+			for (int i = 0; i < this.getItemCount(); i++) {
+				output.write("*" + this.getMajor(i).getMajorName() + "*\n");
+				String[] courseNumbers = this.getMajor(i).getCourseNumber();
+				for (int j = 0; j < courseNumbers.length; j++) {
+					output.write(courseNumbers[j] + "&&& ");
+				}
+				output.write("\n");
+			}
+			output.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+			output.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override

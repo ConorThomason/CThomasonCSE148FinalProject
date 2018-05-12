@@ -22,6 +22,7 @@ public class FacultyDetailsPane {
 	private void buildPane(Faculty currentlySelected) {
 		
 		//Student details display pane
+		try {
 		pane = new BorderPane();
 		VBox facultyDetails = new VBox(5);
 		Label title = new Label("Title: ");
@@ -33,6 +34,8 @@ public class FacultyDetailsPane {
 		Label salaryOutput = new Label(currentlySelected.getSalary());
 		facultyDetails.getChildren().addAll(title, titleOutput, salary, salaryOutput);
 		pane.setTop(facultyDetails);
+		} catch(NullPointerException e) {
+		}
 	}
 	private void insertInformation(Faculty faculty) {
 		titleOutput.setText(faculty.getTitle());

@@ -61,6 +61,9 @@ public class CourseAdd {
 			if (allBags.getTextbookBag().find(textbookIsbnField.getText()) != -1) {
 				constructorTextbook = allBags.getTextbookBag().getTextbook(textbookIsbnField.getText());
 			}
+			else if (textbookIsbnField.getText().equals("")) {
+				constructorTextbook = null;
+			}
 			else {
 				Util.displayError("Textbook not found in Textbook Bag; no textbook will be assigned.");
 				constructorTextbook = null;

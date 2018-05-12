@@ -54,6 +54,7 @@ public class Faculty extends Person implements java.io.Serializable {
 		{
 			System.out.println("The Salary entry for this " + this.getClass().getSimpleName() + ", appears to be an incorrect/invalid entry, please try again");
 		}
+		try {
 		String salaryToConvert = "";
 		if (salary.charAt(0) != '$') //Added a check for $ so that it would be uniform throughout
 		{
@@ -61,6 +62,9 @@ public class Faculty extends Person implements java.io.Serializable {
 		}
 		salaryToConvert += salary;
 		this.salary = salaryToConvert;
+		} catch (StringIndexOutOfBoundsException e) {
+			this.salary = null;
+		}
 	}
 	public String toString() {
 		return super.toString() + "\t Title: " + this.getTitle() + "\t Salary: " + this.getSalary();

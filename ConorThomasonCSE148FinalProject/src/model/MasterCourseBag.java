@@ -220,7 +220,7 @@ public class MasterCourseBag implements java.io.Serializable {
 			file = new File(fileName);
 			input = new Scanner(file).useDelimiter("&&& ");
 			while(input.hasNext()) {
-				Textbook inputTextbook = new Textbook(" "," "," "," ","TOBEINPUT");
+				Textbook inputTextbook = new Textbook(" "," "," "," ","");
 				Course inputCourse = new Course("","",inputTextbook,0);
 				inputCourse.setCourseTitle(input.next());
 				inputCourse.setCourseNumber(input.next());

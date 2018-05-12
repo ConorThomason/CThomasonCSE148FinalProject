@@ -206,7 +206,7 @@ public class TextbookPane {
 	}
 	private VBox buildUniversal(VBox mainDetails) {
 		updateSelectedPerson();
-		
+		try {
 		Label textbookHeader = new Label("Textbook");
 		textbookHeader.setStyle("-fx-font-size: 24");
 		//Main Details Section (Top of BorderPane)
@@ -235,6 +235,12 @@ public class TextbookPane {
 		mainDetails.getChildren().addAll(textbookHeader, bookTitle, bookTitleOutput, authorName, authorNameOutput, publisherName, publisherNameOutput,
 				bookPrice, bookPriceOutput, isbn, isbnOutput);
 		return mainDetails;
+		} catch (NullPointerException e) {
+			Label statusLabel = new Label("No Textbook Selected");
+			VBox statusBox = new VBox(5);
+			statusBox.getChildren().add(statusLabel);
+			return statusBox;
+		}
 	}
 	public BorderPane getPane() {
 		return borderPane;

@@ -36,68 +36,13 @@ public class Start extends Application {
 		BorderPane root = new BorderPane();
 		AllBags allBags = new AllBags();
 		allBags.load();
-		
 		//Initial menu
 		Scene scene = new Scene(root, primaryStage.getHeight(), primaryStage.getWidth());
-		TopPane topPane = new TopPane(allBags);
+		TopPane topPane = new TopPane(allBags, primaryStage, root, screenSizes);
 		MainPane mainPane = new MainPane(screenSizes, root, allBags);
 		root.setTop(topPane.getMenuBar());
 		root.setCenter(mainPane.getPane());
 		
-		MenuItem viewMainItem = topPane.getViewMainItem();
-		viewMainItem.setOnAction(e ->{
-			MainPane buttonMainPane = new MainPane(screenSizes, root, allBags);
-			screenSizes.setCurrentScene(0);
-			root.setCenter(buttonMainPane.getPane());
-			});
-		MenuItem viewPeopleItem = topPane.getViewPeopleItem();
-		viewPeopleItem.setOnAction(e ->{
-			PeoplePane buttonPeoplePane = new PeoplePane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(1);
-			root.setCenter(buttonPeoplePane.getPane());
-		});
-		MenuItem viewCoursesItem = topPane.getViewCoursesItem();
-		viewCoursesItem.setOnAction(e ->{
-			CoursePane buttonCoursesPane = new CoursePane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(2);
-			root.setCenter(buttonCoursesPane.getPane());
-		});
-		MenuItem viewTextbooksItem = topPane.getViewTextbooksItem();
-		viewTextbooksItem.setOnAction(e ->{
-			TextbookPane buttonTextbookPane = new TextbookPane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(3);
-			root.setCenter(buttonTextbookPane.getPane());
-		});
-		MenuItem viewMajorsItem = topPane.getViewMajorsItem();
-		viewMajorsItem.setOnAction(e ->{
-			MajorPane buttonMajorPane = new MajorPane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(4);;
-			root.setCenter(buttonMajorPane.getPane());
-		});
-		primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
-			@Override public void changed(ObservableValue o, Number oldWidth, Number newWidth) {
-				if (screenSizes.getCurrentScene() == 0) {
-					MainPane mainPane = new MainPane(screenSizes, root, allBags);
-					root.setCenter(mainPane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 1) {
-					PeoplePane peoplePane = new PeoplePane(allBags, screenSizes, root);
-					root.setCenter(peoplePane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 2) {
-					CoursePane coursePane = new CoursePane(allBags, screenSizes, root);
-					root.setCenter(coursePane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 3) {
-					TextbookPane textbookPane = new TextbookPane(allBags, screenSizes, root);
-					root.setCenter(textbookPane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 4) {
-					MajorPane majorPane = new MajorPane(allBags, screenSizes, root);
-					root.setCenter(majorPane.getPane());
-				}
-			}
-		});
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

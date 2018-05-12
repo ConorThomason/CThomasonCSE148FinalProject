@@ -185,6 +185,8 @@ public class MajorEdit {
 		saveButton.setMinWidth(editMajorStage.getWidth() / 8);
 		saveButton.setMaxHeight(editMajorStage.getHeight() / 10);
 		saveButton.setOnAction(e ->{
+			allBags.save();
+			allBags.getAllMajorBags().exportAllMajors();
 			editMajorStage.close();
 		});
 		cancelButton = new Button("Cancel");

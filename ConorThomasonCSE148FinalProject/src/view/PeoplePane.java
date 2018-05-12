@@ -74,14 +74,13 @@ public class PeoplePane {
 			StudentDetailsPane studentPane = new StudentDetailsPane((Student)currentlySelected);
 			details.setCenter(studentPane.getPane());
 		}
-		else {
+		else if (currentlySelected instanceof Faculty) {
 			Label personType = new Label("Faculty");
 			personType.setStyle("-fx-font-size: 24");
 			mainDetails.getChildren().add(personType);
 			FacultyDetailsPane facultyPane = new FacultyDetailsPane((Faculty)currentlySelected);
 			details.setCenter(facultyPane.getPane());
 		}
-
 		details.setTop(buildUniversal(mainDetails));
 
 		//Button Section (Bottom of BorderPane)
@@ -187,6 +186,7 @@ public class PeoplePane {
 		table.setItems(refreshData(allBags));
 		table.getColumns().addAll(firstNameCol, lastNameCol, idCol, phoneNumberCol);
 		table.getSortOrder().add(idCol);
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.getSelectionModel().selectFirst();
 		table.setOnMousePressed(e ->{
 			buildDetails();
@@ -214,6 +214,7 @@ public class PeoplePane {
 
 		//Main Details Section (Top of BorderPane)
 		details.setPadding(new Insets(5));
+		try {
 
 		Label firstName = new Label("First Name: ");
 		firstName.setStyle("-fx-font-weight: bold");
@@ -234,6 +235,11 @@ public class PeoplePane {
 		mainDetails.getChildren().addAll(firstName, firstNameOutput, lastName, 
 				lastNameOutput, id, idOutput, phoneNumber, phoneNumberOutput);
 		return mainDetails;
+		}catch(NullPointerException e) {
+			Label statusLabel = new Label("No Person Selected");
+			mainDetails.getChildren().add(statusLabel);
+			return mainDetails;
+		}
 	}
 	public BorderPane getPane() {
 		return borderPane;

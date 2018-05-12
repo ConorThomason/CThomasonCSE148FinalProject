@@ -84,7 +84,7 @@ public class Textbook implements java.io.Serializable {
 	}
 	public String getIsbn() {
 		if (isbn == null) {
-			return "TOBEINPUT";
+			return "";
 		}
 		else
 			return isbn;
@@ -98,19 +98,11 @@ public class Textbook implements java.io.Serializable {
 			else
 				isbnToConvert += isbn.charAt(i);
 		}
-		try {
-			if (checkValidIsbn(isbnToConvert) == false){
-				throw new IsbnInvalidException();
-			}
-		}catch (IsbnInvalidException e) {
-			System.out.println(e.getMessage());
-		}
-		
 		this.isbn = isbnToConvert;
 	}
 	public boolean checkValidIsbn(String isbn) { //Uses a method to verify an ISBN by hand, transcribed into code.
 		int productSum = 0;
-		if (isbn.equals("TOBEINPUT")) {
+		if (isbn.equals("")) {
 			return true;
 		}
 		else if (isbn.length() == 13){
