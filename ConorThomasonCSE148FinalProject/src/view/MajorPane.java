@@ -36,7 +36,7 @@ public class MajorPane {
 	private AllBags allBags;
 	private ScreenSizes screenSizes;
 	private BorderPane root;
-	private CourseEdit courseEditStage;
+	private MajorEdit majorEditStage;
 	private Button editButton, addButton, deleteButton, findButton;
 	private boolean firstStart = true;
 	public MajorPane(AllBags allBags, ScreenSizes screenSizes, BorderPane root) {
@@ -72,14 +72,14 @@ public class MajorPane {
 		//Button Section (Bottom of BorderPane)
 		editButton = new Button("Edit");
 
-//		editButton.setOnAction(e ->{
-//			courseEditStage = new CourseEdit(allBags, screenSizes, currentlySelected);
-//			courseEditStage.getStage().showAndWait();
-//			buildTable();
-//			buildDetails();
-//			buildPane();
-//			root.setCenter(this.getPane());
-//		});
+		editButton.setOnAction(e ->{
+			majorEditStage = new MajorEdit(allBags, screenSizes, currentlySelected);
+			majorEditStage.getStage().showAndWait();
+			buildTable();
+			buildDetails();
+			buildPane();
+			root.setCenter(this.getPane());
+		});
 		addButton = new Button("Add");
 		addButton.setOnAction(e ->{
 			MajorAdd majorAddStage = new MajorAdd(allBags, screenSizes);
@@ -93,7 +93,7 @@ public class MajorPane {
 		deleteButton.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete Confirmation");
-			alert.setHeaderText("Are you sure you want to delete this Course?");
+			alert.setHeaderText("Are you sure you want to delete this Major?");
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
@@ -108,18 +108,18 @@ public class MajorPane {
 		findButton = new Button("Find");
 		findButton.setOnAction(e -> {
 			Stage findStage = new Stage();
-			findStage.setTitle("Find Course");
+			findStage.setTitle("Find Major");
 			HBox findBox = new HBox(5);
-			Label findLabel = new Label("Course #:");
+			Label findLabel = new Label("Major Name:");
 			TextField findField = new TextField();
 			Button findButton = new Button("Search");
 			findButton.setOnAction(f ->{
-				int findIndex = allBags.getAllMajorBags().find(findField.getText());
+				int findIndex = allBags.getAllMajorBags().find(findField.getText().toUpperCase());
 				if (findIndex == -1)
 				{
 					Alert notFound = new Alert(AlertType.ERROR);
-					notFound.setTitle("Course Number Search Error");
-					notFound.setHeaderText("Course Number Not Found");
+					notFound.setTitle("Major Search Error");
+					notFound.setHeaderText("Major Not Found");
 					notFound.showAndWait();
 				}
 				else {
@@ -162,6 +162,8 @@ public class MajorPane {
 		table.getSelectionModel().selectFirst();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setOnMousePressed(e ->{
+			updateSelectedCourse();
+			refreshData(allBags);
 			buildDetails();
 			buildPane();
 			root.setCenter(this.getPane());

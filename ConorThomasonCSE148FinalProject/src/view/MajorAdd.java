@@ -42,7 +42,7 @@ public class MajorAdd {
 	private void buildStage() {
 		addMajorStage = new Stage();
 		addMajorStage.setTitle("Add a Course");
-		addMajorStage.setHeight(screenSizes.getScreenHeight() / 6);
+		addMajorStage.setHeight(screenSizes.getScreenHeight() / 10);
 		addMajorStage.setWidth(screenSizes.getScreenWidth() / 7);
 	}
 	private void buildScene() {
@@ -56,7 +56,7 @@ public class MajorAdd {
 			AllMajorBags bagToConvert = allBags.getAllMajorBags();
 			AllMajorBags convertBag = new AllMajorBags(bagToConvert.getItemCount() + 1);
 			MajorCourseBag majorBag = new MajorCourseBag(1);
-			majorBag.setMajorName(majorNameField.getText());
+			majorBag.setMajorName(majorNameField.getText().toUpperCase());
 			for (int i = 0; i < bagToConvert.getItemCount(); i++) {
 				convertBag.add(bagToConvert.getMajor(i));
 			}

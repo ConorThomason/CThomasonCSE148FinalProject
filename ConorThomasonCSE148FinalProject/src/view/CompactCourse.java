@@ -13,6 +13,9 @@ public class CompactCourse {
 		this.courseGrade = courseGrade;
 		this.courseType = courseType;
 	}
+	public CompactCourse(String courseNumber) {
+		this.courseNumber = courseNumber;
+	}
 	public String getCourseNumber() {
 		return courseNumber;
 	}

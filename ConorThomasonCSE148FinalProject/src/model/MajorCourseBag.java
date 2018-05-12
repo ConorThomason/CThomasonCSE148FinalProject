@@ -14,12 +14,20 @@ import java.io.Writer;
 import java.util.Scanner;
 
 public class MajorCourseBag implements Serializable {
-	private Course majorCourses[];
 	private String majorName;
 	private String courseNumber[];
 	private String courseNumberStringFormat;
-	private int itemCount;
+	private int itemCount = 0;
 	
+	public MajorCourseBag(String major) {
+		this.importMajor("DEFAULT", major.toUpperCase());
+	}
+	public MajorCourseBag(String file, String major) {
+		this.importMajor(file, major.toUpperCase());
+	}
+	public MajorCourseBag(int size) {
+		courseNumber = new String[size];
+	}
 	public String[] getCourseNumber() {
 		return courseNumber;
 	}
@@ -29,23 +37,53 @@ public class MajorCourseBag implements Serializable {
 	public void setNumberOfCourses(int itemCount) {
 		this.itemCount = itemCount;
 	}
-	public void setMajorCourses(Course[] majorCourses) {
-		this.majorCourses = majorCourses;
-	}
 	public void setCourseNumberStringFormat(String courseNumberStringFormat) {
 		this.courseNumberStringFormat = courseNumberStringFormat;
-	}
-	public MajorCourseBag(Course majorCourses[]) {
-		this.majorCourses = majorCourses;
 	}
 	public void setMajorName(String majorName) {
 		this.majorName = majorName;
 	}
+	public void add(String inputNumber) {
+		try {
+		courseNumber[itemCount++] = inputNumber;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			itemCount--;
+			increaseArraySize();
+			add(inputNumber);
+		}
+		courseNumberArrayToString();
+	}
+	public void increaseArraySize() {
+		String[] newCourses = new String[courseNumber.length + 1];
+		for (int i = 0; i < courseNumber.length; i++) {
+			newCourses[i] = courseNumber[i];
+		}
+		courseNumber = newCourses.clone();
+	}
+	public String delete(String inputNumber) {
+		int index = this.find(inputNumber);
+		if (index == -1) {
+			System.out.println("This Course does not exist.");
+			return null;
+		}
+		else {
+			String deletedCourse = courseNumber[index];
+			for (int i = index; i < itemCount-1; i++) {
+				if (i == itemCount-1)
+				{
+					courseNumber[i] = null;
+				}
+				else {
+				courseNumber[i] = courseNumber[i+1];
+				}
+			}
+			itemCount--;
+			courseNumberArrayToString();
+			return deletedCourse;
+		}
+	}
 	public String getCourseNumberStringFormat() {
 		return courseNumberStringFormat;
-	}
-	public Course getSpecificCourse(int index) {
-		return majorCourses[index];
 	}
 	private void courseNumberArrayToString() {
 		String convertedString = "";
@@ -57,58 +95,21 @@ public class MajorCourseBag implements Serializable {
 	public String getMajorName() {
 		return majorName;
 	}
-	public MajorCourseBag(int maxSize) {
-		majorCourses = new Course[maxSize];
-	}
-	public MajorCourseBag(String major) {
-		this.importMajor("DEFAULT", major.toUpperCase());
-	}
-	public MajorCourseBag(String file, String major) {
-		this.importMajor(file, major.toUpperCase());
-	}
 	public int getNumberOfCourses() {
 		return itemCount;
-	}
-	public void add(Course course) {
-		if (isDuplicate(course.getCourseNumber()))
-			System.out.println(course.getCourseTitle() + ", Course Number: " + course.getCourseNumber() + " appears to be a duplicate. Please reenter it correctly or exclude its further entry.");
-		else
-			majorCourses[itemCount++] = course;
-	}
-	public void display() {
-		System.out.println("Courses Required: \n");
-		for (int i = 0; i < itemCount; i++) {
-			if (majorCourses[i] == null)
-				break;
-			else
-				System.out.println(majorCourses[i].toString());
-		}
-	}
-	public Course getCourse(int index) {
-		return majorCourses[index];
-	}
-	public Course[] getMajorCourses() {
-		return majorCourses;
 	}
 	public String[] getCourseNumbers() {
 		return courseNumber;
 	}
-	public boolean isDuplicate(String courseNumber) {
-		if (this.find(courseNumber) == -1)
+	public boolean isDuplicate(String inputNumber) {
+		if (this.find(inputNumber) == -1)
 			return false;
 		else
 			return true;
 	}
-	public void fillCourseNumber() {
-		courseNumber = new String[itemCount];
-		for (int i = 0; i < courseNumber.length; i++) {
-			courseNumber[i] = majorCourses[i].getCourseNumber();
-		}
-	}
-	
-	public int find(String courseNumber) {
+	public int find(String inputNumber) {
 		for (int i = 0; i < itemCount; i++) {
-			if (courseNumber.equals(this.majorCourses[i].getCourseNumber())) {
+			if (inputNumber.equals(courseNumber[i])) {
 					return i;
 			}
 		}
@@ -116,7 +117,7 @@ public class MajorCourseBag implements Serializable {
 	}
 	public void parseCoursesFromMaster(MasterCourseBag masterBag) {
 		for (int i = 0; i < courseNumber.length; i++) {
-			this.add(masterBag.getCourse(masterBag.find(courseNumber[i])));
+			this.add(masterBag.getCourse(masterBag.find(courseNumber[i])).getCourseNumber());
 		}
 	}
 	public void exportMajor(String major) { //Appends to an existing majorFile.txt - if it doesn't exist, it creates a new one.
@@ -160,6 +161,7 @@ public class MajorCourseBag implements Serializable {
 					setMajorName(major.substring(1, major.length()-1));
 					String majorCodes = input.nextLine();
 					courseNumber = majorCodes.split("&&& ");
+					itemCount = courseNumber.length;
 					this.courseNumberArrayToString();
 					break;
 				}
