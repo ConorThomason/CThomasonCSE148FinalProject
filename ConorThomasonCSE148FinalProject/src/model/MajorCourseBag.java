@@ -14,13 +14,19 @@ import java.util.Scanner;
 
 public class MajorCourseBag {
 	private Course majorCourses[];
+	private String majorName;
 	private String courseNumber[];
 	private int itemCount;
 	
 	public MajorCourseBag(Course majorCourses[]) {
 		this.majorCourses = majorCourses;
 	}
-	
+	private void setMajorName(String majorName) {
+		this.majorName = majorName;
+	}
+	public String getMajorName() {
+		return majorName;
+	}
 	public MajorCourseBag(int maxSize) {
 		majorCourses = new Course[maxSize];
 	}
@@ -121,6 +127,7 @@ public class MajorCourseBag {
 			input = new Scanner(file);
 			while (input.hasNextLine()) {
 				if (input.nextLine().equals(major)) {
+					setMajorName(major);
 					String majorCodes = input.nextLine();
 					courseNumber = majorCodes.split("&&& ");
 					break;

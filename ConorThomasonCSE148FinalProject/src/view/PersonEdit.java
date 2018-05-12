@@ -44,7 +44,7 @@ public class PersonEdit {
 	private TextField addButtonField;
 	private StudentCourseEdit courseEdit;
 	private CompactCourse selectedCourse;
-	private Button saveButton, cancelButton, addButton, applyButton;
+	private Button saveButton, cancelButton, addButton, applyButton, deleteButton;
 	private TableView<CompactCourse> table;
 	public PersonEdit(AllBags allBags, ScreenSizes screenSizes, Faculty selectedFaculty) {
 		this.screenSizes = screenSizes;
@@ -65,7 +65,7 @@ public class PersonEdit {
 	private void buildStage() {
 		editPersonStage = new Stage();
 		editPersonStage.setTitle("Edit a Person");
-		editPersonStage.setHeight(screenSizes.getScreenHeight() / 2);
+		editPersonStage.setHeight(screenSizes.getScreenHeight() / 1.8);
 		editPersonStage.setWidth(screenSizes.getScreenWidth() / 5);
 	}
 	private void buildScene(Faculty selectedFaculty) {
@@ -112,6 +112,7 @@ public class PersonEdit {
 		completeBox.setAlignment(Pos.CENTER);
 		return completeBox;
 	}
+	
 	private void buildScene(Student selectedStudent) {
 		BorderPane inputRoot = new BorderPane();
 		VBox studentDetails = new VBox(5);
@@ -120,6 +121,7 @@ public class PersonEdit {
 		VBox bottomBox = new VBox(5);
 		HBox buttonBox = buildButtonBox();
 		bottomBox.getChildren().addAll(buildAddButton(), buttonBox);
+		deleteButton.setAlignment(Pos.CENTER);
 		buttonBox.setAlignment(Pos.CENTER);
 		inputRoot.setTop(studentDetails);
 		inputRoot.setBottom(bottomBox);
@@ -135,10 +137,11 @@ public class PersonEdit {
 		applyButton.setOnAction(e ->{
 			selectedCourse = courseEdit.getSelectedCourse();
 			CompactCourse courseCopy = new CompactCourse(selectedCourse.getCourseNumber(), selectedCourse.getCourseGrade(), selectedCourse.getCourseType());		
-			courseCopy.setCourseGrade(courseEdit.getCourseGradeField().getText());
 			courseCopy.setCourseType(courseEdit.getCourseTypeField().getValue().toString());
+			courseCopy.setCourseGrade(courseEdit.getCourseGradeField().getText());
 			selectedStudent.getCourseBagArray().delete(courseCopy.getCourseNumber());
 			selectedStudent.getCourseBagArray().add(courseCopy.getCourseBagStyle());
+			selectedStudent.calculateGpa(selectedStudent.getCourseBagArray());
 			PersonEdit newEditPersonStage = new PersonEdit(allBags, screenSizes, selectedStudent);
 			editPersonStage.close();
 			newEditPersonStage.getStage().show();
@@ -152,7 +155,7 @@ public class PersonEdit {
 		});
 		addButton.setOnAction(e -> {
 			if (allBags.getMasterCourseBag().find(addButtonField.getText()) != -1) {
-				if (selectedStudent.getCourseBagArray().find(addButtonField.getText()) == -1) 
+				if (selectedStudent.getCourseBagArray().find(addButtonField.getText()) == -1)
 				selectedStudent.getCourseBagArray().addByCourseNumber(addButtonField.getText());
 				else
 					Util.displayError("Course is already contained in Student");
@@ -164,10 +167,15 @@ public class PersonEdit {
 			editPersonStage.close();
 			newEditPersonStage.getStage().show();
 		});
+		deleteButton.setOnAction(e ->{
+			selectedCourse = courseEdit.getSelectedCourse();
+			selectedStudent.getCourseBagArray().delete(selectedCourse.getCourseNumber());
+			PersonEdit newEditPersonStage = new PersonEdit(allBags, screenSizes, selectedStudent);
+			editPersonStage.close();
+			newEditPersonStage.getStage().show();
+		});
 		personAddScene = new Scene(inputRoot, editPersonStage.getHeight(), editPersonStage.getWidth());
 	}
-	
-	
 	public BorderPane buildFacultyBoxes() {
 		BorderPane splitter = new BorderPane();
 		splitter.setTop(buildDetails(selectedFaculty));
@@ -178,7 +186,12 @@ public class PersonEdit {
 	private VBox buildCourseEditPane() {
 		courseEdit = new StudentCourseEdit(allBags, screenSizes, selectedStudent, editPersonStage);
 		courseEdit.getPane().setAlignment(Pos.CENTER);
-		return courseEdit.getPane();
+		VBox returnedPane = new VBox(5);
+		deleteButton = new Button("Delete Selected Course");
+		returnedPane.getChildren().addAll(courseEdit.getPane(), deleteButton);
+		deleteButton.setAlignment(Pos.CENTER);
+		returnedPane.setAlignment(Pos.CENTER);
+		return returnedPane;
 			
 	}
 	private HBox buildFacultySpecific() { 
@@ -211,7 +224,7 @@ public class PersonEdit {
 		Label lastNameLabel = new Label("Last Name: ");
 		lastNameField = new TextField(selectedStudent.getLastName());
 
-		Label phoneNumberLabel = new Label("Phone: ");
+		Label phoneNumberLabel = new Label("Phone: "); 
 		phoneNumberField = new TextField(selectedStudent.getPhoneNumber());
 		
 		Label majorLabel = new Label("Major:");

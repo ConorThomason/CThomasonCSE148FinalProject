@@ -58,17 +58,22 @@ public class MasterCourseBag implements java.io.Serializable {
 		else
 			return true;
 	}
-	public Course delete(String course) {
-		int index = this.find(course);
+	public Course delete(String courseNumber) {
+ 		int index = this.find(courseNumber);
 		if (index == -1) {
 			System.out.println("This Course does not exist.");
 			return null;
 		}
 		else {
 			Course deletedCourse = courses[index];
-			for (int i = 0; i < itemCount-1; i++)
-			{
+			for (int i = index; i < itemCount-1; i++) {
+				if (i == itemCount-1)
+				{
+					courses[i] = null;
+				}
+				else {
 				courses[i] = courses[i+1];
+				}
 			}
 			itemCount--;
 			return deletedCourse;

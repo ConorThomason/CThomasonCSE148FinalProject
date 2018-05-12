@@ -82,18 +82,8 @@ public class Start extends Application {
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Are you sure you want to continue?");
-				alert.setHeaderText("Any data that has not been saved may be lost...");
-				alert.setContentText("Continue?");
-				alert.showAndWait().ifPresent(type -> {
-					if (type == ButtonType.OK) {
-						Platform.exit();
-					}
-					else if (type == ButtonType.CANCEL) {
-					}
-				});
-				
+				allBags.save();	
+				Platform.exit();
 			}
 		});
 	}

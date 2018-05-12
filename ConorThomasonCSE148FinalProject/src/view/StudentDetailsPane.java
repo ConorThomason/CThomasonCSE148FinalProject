@@ -30,7 +30,14 @@ public class StudentDetailsPane {
 		VBox studentDetails = new VBox(5);
 		Label gpa = new Label("GPA: ");
 		gpa.setStyle("-fx-font-weight: bold");
-		Label gpaOutput = new Label(Double.toString(currentlySelected.getGpa()));
+		String gpaValue = Double.toString(currentlySelected.getGpa());
+		if (gpaValue.length() <= 3) {
+			gpaValue = gpaValue.substring(0, 3);
+		}
+		else {
+			gpaValue = gpaValue.substring(0, 4);
+		}
+		Label gpaOutput = new Label(gpaValue);
 		
 		Label major = new Label("Major: ");
 		major.setStyle("-fx-font-weight: bold");

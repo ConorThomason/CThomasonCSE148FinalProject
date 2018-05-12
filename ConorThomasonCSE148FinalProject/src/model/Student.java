@@ -11,7 +11,7 @@ public class Student extends Person implements java.io.Serializable {
 			this.setMajor(major.toUpperCase());
 			CourseBag majorBag = new CourseBag("DEFAULT", this.getMajor());
 			this.setCourseBag(majorBag);
-			this.setGpa(calculateGpa(this.courseBag));
+			calculateGpa(this.courseBag);
 		} catch (IllegalArgumentException e)
 		{
 			System.out.println("An invalid parameter has been provided in the creation of this " + this.getClass().getSimpleName() + ", please check your entry and try again");
@@ -75,7 +75,7 @@ public class Student extends Person implements java.io.Serializable {
 			System.out.println("The GPA entry for this " + this.getClass().getSimpleName() + ", appears to be an incorrect/invalid entry, please try again");
 		}
 	}
-	public double calculateGpa(CourseBag coursebag) {
+	public void calculateGpa(CourseBag coursebag) {
 		double totalPoints = 0;
 		int totalCredits = 0;
 		MasterCourseBag masterCourseBag = new MasterCourseBag(50);
@@ -83,7 +83,6 @@ public class Student extends Person implements java.io.Serializable {
 		for (int i = 0; i < courseBag.getCourseCount(); i++) {
 			String[] courseInfo = courseBag.getCourseInfo(i);
 			if (courseInfo[1].equals("IP") || courseInfo[1].equals("N/A") || courseInfo[1].equals("W")) {
-				break;
 			}
 			else {
 				Course courseForCredit =  masterCourseBag.getCourse((masterCourseBag.find(courseInfo[0])));
@@ -91,7 +90,7 @@ public class Student extends Person implements java.io.Serializable {
 				totalCredits += courseForCredit.getNumberOfCredits();
 			}
 		}
-		return totalPoints/totalCredits;
+		this.setGpa(totalPoints/totalCredits);
 	}
 	public double gradeToGpa(String grade) {
 		switch (grade.toUpperCase()) {

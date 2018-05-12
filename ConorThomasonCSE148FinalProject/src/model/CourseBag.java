@@ -100,7 +100,11 @@ public class CourseBag implements java.io.Serializable {
 		
 		if (grade != null) {
 			grade.toUpperCase();
-			if (grade.equals("A") || grade.equals("B") || grade.equals("C") || grade.equals("D") || grade.equals("F") || grade.equals("W") || grade.equals("IP") || grade.equals("N/A")) {
+			if (grade.equals("A") || grade.equals("B") || grade.equals("C") || grade.equals("D") || grade.equals("F")) {
+				courses[this.find(courseNumber)][CGRADE] = grade.toUpperCase();
+				this.setCourseType(courses[this.find(courseNumber)][CNUMBER], "HAVE");
+			}
+			else if (grade.equals("W") || grade.equals("IP") || grade.equals("N/A")) {
 				courses[this.find(courseNumber)][CGRADE] = grade.toUpperCase();
 			}
 			else {
