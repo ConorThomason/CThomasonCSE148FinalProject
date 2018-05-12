@@ -68,6 +68,12 @@ public class Start extends Application {
 			screenSizes.setCurrentScene(3);
 			root.setCenter(buttonTextbookPane.getPane());
 		});
+		MenuItem viewMajorsItem = topPane.getViewMajorsItem();
+		viewMajorsItem.setOnAction(e ->{
+			MajorPane buttonMajorPane = new MajorPane(allBags, screenSizes, root);
+			screenSizes.setCurrentScene(4);;
+			root.setCenter(buttonMajorPane.getPane());
+		});
 		primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
 			@Override public void changed(ObservableValue o, Number oldWidth, Number newWidth) {
 				if (screenSizes.getCurrentScene() == 0) {
@@ -85,6 +91,10 @@ public class Start extends Application {
 				else if (screenSizes.getCurrentScene() == 3) {
 					TextbookPane textbookPane = new TextbookPane(allBags, screenSizes, root);
 					root.setCenter(textbookPane.getPane());
+				}
+				else if (screenSizes.getCurrentScene() == 4) {
+					MajorPane majorPane = new MajorPane(allBags, screenSizes, root);
+					root.setCenter(majorPane.getPane());
 				}
 			}
 		});

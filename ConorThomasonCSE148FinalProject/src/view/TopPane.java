@@ -18,6 +18,7 @@ public class TopPane {
 	private MenuItem viewPeopleItem;
 	private MenuItem viewTextbooksItem;
 	private MenuItem viewCoursesItem;
+	private MenuItem viewMajorsItem;
 	//Make the menuItems global, define their actions here, define the TopPane, set action in Start.
 	public TopPane(AllBags allBags) {
 		buildMenuBar(allBags);
@@ -51,11 +52,18 @@ public class TopPane {
 		viewPeopleItem = new MenuItem("People");
 		viewTextbooksItem = new MenuItem("Textbooks");
 		viewCoursesItem = new MenuItem("Courses");
+		viewMajorsItem = new MenuItem("Majors");
 		
 		fileMenu.getItems().addAll(newMenuItem, loadMenuItem, saveMenuItem, exitMenuItem);
-		viewMenu.getItems().addAll(viewMainItem, viewPeopleItem, viewTextbooksItem, viewCoursesItem);
+		viewMenu.getItems().addAll(viewMainItem, viewPeopleItem, viewTextbooksItem, viewCoursesItem, viewMajorsItem);
 		menuBar = new MenuBar(); //Removal of this breaks everything. Don't remove it.
 		menuBar.getMenus().addAll(fileMenu, viewMenu);
+	}
+	public MenuItem getViewMajorsItem() {
+		return viewMajorsItem;
+	}
+	public void setViewMajorsItem(MenuItem viewMajorsItem) {
+		this.viewMajorsItem = viewMajorsItem;
 	}
 	public Menu getViewMenu() {
 		return viewMenu;

@@ -9,20 +9,50 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.io.Writer;
 import java.util.Scanner;
 
-public class MajorCourseBag {
+public class MajorCourseBag implements Serializable {
 	private Course majorCourses[];
 	private String majorName;
 	private String courseNumber[];
+	private String courseNumberStringFormat;
 	private int itemCount;
 	
+	public String[] getCourseNumber() {
+		return courseNumber;
+	}
+	public void setCourseNumber(String[] courseNumber) {
+		this.courseNumber = courseNumber;
+	}
+	public void setNumberOfCourses(int itemCount) {
+		this.itemCount = itemCount;
+	}
+	public void setMajorCourses(Course[] majorCourses) {
+		this.majorCourses = majorCourses;
+	}
+	public void setCourseNumberStringFormat(String courseNumberStringFormat) {
+		this.courseNumberStringFormat = courseNumberStringFormat;
+	}
 	public MajorCourseBag(Course majorCourses[]) {
 		this.majorCourses = majorCourses;
 	}
-	private void setMajorName(String majorName) {
+	public void setMajorName(String majorName) {
 		this.majorName = majorName;
+	}
+	public String getCourseNumberStringFormat() {
+		return courseNumberStringFormat;
+	}
+	public Course getSpecificCourse(int index) {
+		return majorCourses[index];
+	}
+	private void courseNumberArrayToString() {
+		String convertedString = "";
+		for (int i = 0; i < courseNumber.length; i++) {
+			convertedString += " " + courseNumber[i];
+		}
+		courseNumberStringFormat = convertedString;
 	}
 	public String getMajorName() {
 		return majorName;
@@ -127,9 +157,10 @@ public class MajorCourseBag {
 			input = new Scanner(file);
 			while (input.hasNextLine()) {
 				if (input.nextLine().equals(major)) {
-					setMajorName(major);
+					setMajorName(major.substring(1, major.length()-1));
 					String majorCodes = input.nextLine();
 					courseNumber = majorCodes.split("&&& ");
+					this.courseNumberArrayToString();
 					break;
 				}
 			}

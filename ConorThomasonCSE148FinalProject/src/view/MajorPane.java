@@ -28,18 +28,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.*;
 
-public class CoursePane {
-	private TableView<Course> table;
+public class MajorPane {
+	private TableView<MajorCourseBag> table;
 	private BorderPane borderPane;
 	private BorderPane details;
-	private Course currentlySelected;
+	private MajorCourseBag currentlySelected;
 	private AllBags allBags;
 	private ScreenSizes screenSizes;
 	private BorderPane root;
 	private CourseEdit courseEditStage;
 	private Button editButton, addButton, deleteButton, findButton;
 	private boolean firstStart = true;
-	public CoursePane(AllBags allBags, ScreenSizes screenSizes, BorderPane root) {
+	public MajorPane(AllBags allBags, ScreenSizes screenSizes, BorderPane root) {
 		this.root = root;
 		this.allBags = allBags;
 		this.screenSizes = screenSizes;
@@ -72,18 +72,18 @@ public class CoursePane {
 		//Button Section (Bottom of BorderPane)
 		editButton = new Button("Edit");
 
-		editButton.setOnAction(e ->{
-			courseEditStage = new CourseEdit(allBags, screenSizes, currentlySelected);
-			courseEditStage.getStage().showAndWait();
-			buildTable();
-			buildDetails();
-			buildPane();
-			root.setCenter(this.getPane());
-		});
+//		editButton.setOnAction(e ->{
+//			courseEditStage = new CourseEdit(allBags, screenSizes, currentlySelected);
+//			courseEditStage.getStage().showAndWait();
+//			buildTable();
+//			buildDetails();
+//			buildPane();
+//			root.setCenter(this.getPane());
+//		});
 		addButton = new Button("Add");
 		addButton.setOnAction(e ->{
-			CourseAdd courseAddStage = new CourseAdd(allBags, screenSizes);
-			courseAddStage.getStage().showAndWait();
+			MajorAdd majorAddStage = new MajorAdd(allBags, screenSizes);
+			majorAddStage.getStage().showAndWait();
 			buildTable();
 			buildDetails();
 			buildPane();
@@ -97,7 +97,7 @@ public class CoursePane {
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
-					allBags.getMasterCourseBag().delete(currentlySelected.getCourseNumber());
+					allBags.getAllMajorBags().delete(currentlySelected.getMajorName());
 					buildTable();
 					buildDetails();
 					buildPane();
@@ -114,7 +114,7 @@ public class CoursePane {
 			TextField findField = new TextField();
 			Button findButton = new Button("Search");
 			findButton.setOnAction(f ->{
-				int findIndex = allBags.getMasterCourseBag().find(findField.getText());
+				int findIndex = allBags.getAllMajorBags().find(findField.getText());
 				if (findIndex == -1)
 				{
 					Alert notFound = new Alert(AlertType.ERROR);
@@ -123,10 +123,10 @@ public class CoursePane {
 					notFound.showAndWait();
 				}
 				else {
-					Course course = allBags.getMasterCourseBag().getCourse(findIndex);
+					MajorCourseBag course = allBags.getAllMajorBags().getMajor(findIndex);
 					currentlySelected = course;
 					findStage.close();
-					scrollToCourse();
+					scrollToMajorBag();
 				}
 			});
 			findBox.getChildren().addAll(findLabel, findField, findButton);
@@ -142,93 +142,76 @@ public class CoursePane {
 
 	}
 	private void buildTable() {
-		table = new TableView<Course>();
+		table = new TableView<MajorCourseBag>();
 
 
-		TableColumn<Course, String> courseTitleCol = new TableColumn<>("Course Title");
-		courseTitleCol.minWidthProperty().bind(table.widthProperty().multiply(0.4));
-		courseTitleCol.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+		TableColumn<MajorCourseBag, String> majorNameCol = new TableColumn<>("Major");
+		majorNameCol.minWidthProperty().bind(table.widthProperty().multiply(0.25));
+		majorNameCol.setCellValueFactory(new PropertyValueFactory<>("majorName"));
+		majorNameCol.setSortType(TableColumn.SortType.ASCENDING);
 
-		TableColumn<Course, String> courseNumberCol = new TableColumn<>("Course Number");
-		courseNumberCol.minWidthProperty().bind(table.widthProperty().multiply(0.2));
-		courseNumberCol.setCellValueFactory(new PropertyValueFactory<>("courseNumber"));
-		courseNumberCol.setEditable(false);
-		courseNumberCol.setSortType(TableColumn.SortType.ASCENDING);
-
-		TableColumn<Course, String> isbnCol = new TableColumn<>("Textbook ISBN");
-		isbnCol.minWidthProperty().bind(table.widthProperty().multiply(0.2));
-		isbnCol.setCellValueFactory(new PropertyValueFactory<>("textbookIsbn"));
-
-		TableColumn<Course, String> creditsCol = new TableColumn<>("Credits");
-		creditsCol.minWidthProperty().bind(table.widthProperty().multiply(0.2));
-		creditsCol.setCellValueFactory(new PropertyValueFactory<>("numberOfCredits"));
+		TableColumn<MajorCourseBag, String> coursesCol = new TableColumn<>("Required Courses");
+		coursesCol.minWidthProperty().bind(table.widthProperty().multiply(0.75));
+		coursesCol.setCellValueFactory(new PropertyValueFactory<>("courseNumberStringFormat"));
+		
 
 
 		table.setItems(refreshData(allBags));
-		table.getColumns().addAll(courseTitleCol, courseNumberCol, isbnCol, creditsCol);
-		table.getSortOrder().add(courseNumberCol);
+		table.getColumns().addAll(majorNameCol, coursesCol);
+		table.getSortOrder().add(majorNameCol);
 		table.getSelectionModel().selectFirst();
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setOnMousePressed(e ->{
 			buildDetails();
 			buildPane();
 			root.setCenter(this.getPane());
 		});
 	}
-	public TableView<Course> getTable(){
+	public TableView<MajorCourseBag> getTable(){
 		return table;
 	}
 	public void updateSelectedCourse() {
 		currentlySelected = table.getSelectionModel().getSelectedItem();
 	}
-	private ObservableList<Course> refreshData(AllBags allBags) {
-		ObservableList<Course> courses = FXCollections.observableArrayList();
-		MasterCourseBag mCourseBag = allBags.getMasterCourseBag();
-		for (int i = 0; i < mCourseBag.getNumberOfCourses(); i++) {
-			Course addCourse = mCourseBag.getCourse(i);
-			courses.add(addCourse);
+	private ObservableList<MajorCourseBag> refreshData(AllBags allBags) {
+		ObservableList<MajorCourseBag> majors = FXCollections.observableArrayList();
+		AllMajorBags allMajorBag = allBags.getAllMajorBags();
+		for (int i = 0; i < allMajorBag.getItemCount(); i++) {
+			MajorCourseBag addMajor = allMajorBag.getMajor(i);
+			majors.add(addMajor);
 		}
-		return courses;
+		return majors;
 	}
 	private VBox buildUniversal(VBox mainDetails) {
 		updateSelectedCourse();
 		
-		Label courseHeader = new Label("Course");
-		courseHeader.setStyle("-fx-font-size: 24");
+		Label majorHeader = new Label("Major");
+		majorHeader.setStyle("-fx-font-size: 24");
 		//Main Details Section (Top of BorderPane)
 		details.setPadding(new Insets(5));
 
-		Label courseTitle = new Label("Course Title: ");
-		courseTitle.setStyle("-fx-font-weight: bold");
-		Label courseTitleOutput = new Label(currentlySelected.getCourseTitle());
+		Label majorName = new Label("Major: ");
+		majorName.setStyle("-fx-font-weight: bold");
+		Label majorNameOutput = new Label(currentlySelected.getMajorName());
 
-		Label courseNumber = new Label("Course Number: ");
-		courseNumber.setStyle("-fx-font-weight: bold");
-		Label courseNumberOutput = new Label(currentlySelected.getCourseNumber());
-
-		Label isbn = new Label("ISBN: ");
-		Label isbnOutput = new Label();
-		isbn.setStyle("-fx-font-weight: bold");
-		
-		if (currentlySelected.getTextbookIsbn() == null) {
-			isbnOutput.setText("No Textbook");
+		Label courses = new Label("Required Courses:");
+		courses.setStyle("-fx-font-weight: bold");
+		String coursesToVertical = currentlySelected.getCourseNumberStringFormat();
+		if (coursesToVertical != null) {
+			coursesToVertical = coursesToVertical.substring(1, coursesToVertical.length()).replaceAll(" ", "\n");
 		}
-		else
-			isbnOutput.setText(currentlySelected.getTextbookIsbn());
+		Label coursesOutput = new Label(coursesToVertical);
 
-		Label credits = new Label("Credits: " );
-		credits.setStyle("-fx-font-weight: bold");
-		Label creditsOutput = new Label(Integer.toString(currentlySelected.getNumberOfCredits()));
 
-		mainDetails.getChildren().addAll(courseHeader, courseTitle, courseTitleOutput, courseNumber, 
-				courseNumberOutput, isbn, isbnOutput, credits, creditsOutput);
+		mainDetails.getChildren().addAll(majorHeader, majorName, majorNameOutput, courses, coursesOutput);
 		return mainDetails;
 	}
 	public BorderPane getPane() {
 		return borderPane;
 	}
-	public void scrollToCourse() {
-		String searchId = currentlySelected.getCourseNumber();
-		table.getItems().stream().filter(currentlySelected -> currentlySelected.getCourseNumber().equals(searchId))
+	public void scrollToMajorBag() {
+		String searchId = currentlySelected.getMajorName();
+		table.getItems().stream().filter(currentlySelected -> currentlySelected.getMajorName().equals(searchId))
 		.findAny().ifPresent(currentlySelected -> {
 			table.getSelectionModel().select(currentlySelected);
 			table.scrollTo(currentlySelected);

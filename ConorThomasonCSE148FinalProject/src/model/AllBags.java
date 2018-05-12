@@ -5,14 +5,25 @@ public class AllBags {
 	private PeopleBag peopleBag;
 	private TextBookBag textbookBag;
 	private MasterCourseBag masterCourseBag;
+	private AllMajorBags allMajorBags;
 	private final int PEOPLEBAG_MAXSIZE = 100;
 	private final int TEXTBOOKBAG_MAXSIZE = 100;
 	private final int MASTERCOURSEBAG_MAXSIZE = 100;
+	private final int ALLMAJORBAG_MAXSIZE = 100;
 	
 	public AllBags() {
 		peopleBag = new PeopleBag(PEOPLEBAG_MAXSIZE);
 		textbookBag = new TextBookBag(TEXTBOOKBAG_MAXSIZE);
 		masterCourseBag = new MasterCourseBag(MASTERCOURSEBAG_MAXSIZE);
+		allMajorBags = new AllMajorBags(ALLMAJORBAG_MAXSIZE);
+	}
+
+	public AllMajorBags getAllMajorBags() {
+		return allMajorBags;
+	}
+
+	public void setAllMajorBags(AllMajorBags allMajorBags) {
+		this.allMajorBags = allMajorBags;
 	}
 
 	public PeopleBag getPeopleBag() {
@@ -40,11 +51,13 @@ public class AllBags {
 		peopleBag.save();
 		textbookBag.save();
 		masterCourseBag.save();
+		allMajorBags.save();
 	}
 	public void load() {
 		peopleBag.load();
 		textbookBag.load();
 		masterCourseBag.load();
+		allMajorBags.load();
 	}
 	
 }

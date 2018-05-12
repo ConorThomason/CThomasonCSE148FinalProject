@@ -77,6 +77,10 @@ public class Demo {
 		mCourseBag.add(course14);
 		mCourseBag.display();
 		mCourseBag.save();
+		AllMajorBags allMajorBags = new AllMajorBags("DEFAULT");
+		allMajorBags.save();
+		allMajorBags.load();
+		System.out.println(allMajorBags.toString());
 //		generateData();
 //		personBag.exportData();
 //		Textbook textbook = mCourseBag.getCourse(4).getTextbookAssigned();
