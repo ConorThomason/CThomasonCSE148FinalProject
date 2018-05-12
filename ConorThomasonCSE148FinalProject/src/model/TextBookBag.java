@@ -62,13 +62,18 @@ public class TextBookBag implements java.io.Serializable {
 			return null;
 		}
 		else {
-			Textbook deletedBook = textbooks[index];
-			for (int i = 0; i < itemCount-1; i++)
-			{
+			Textbook deletedTextbook = textbooks[index];
+			for (int i = index; i < itemCount-1; i++) {
+				if (i == itemCount-1)
+				{
+					textbooks[i] = null;
+				}
+				else {
 				textbooks[i] = textbooks[i+1];
+				}
 			}
 			itemCount--;
-			return deletedBook;
+			return deletedTextbook;
 		}
 	}
 	public Textbook getTextbook(String isbn) { //Uses find method to return an actual textbook, if found in array. If it isn't, returns null.

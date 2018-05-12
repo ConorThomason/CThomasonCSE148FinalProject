@@ -91,13 +91,6 @@ public class Textbook implements java.io.Serializable {
 	}
 	public void setIsbn(String isbn) {
 		String isbnToConvert = "";
-		try {
-			if (checkValidIsbn(isbn) == false){
-				throw new IsbnInvalidException();
-			}
-		}catch (IsbnInvalidException e) {
-			System.out.println(e.getMessage());
-		}
 		for (int i = 0; i < isbn.length(); i++)
 		{
 			if (isbn.charAt(i) == '-')
@@ -105,6 +98,14 @@ public class Textbook implements java.io.Serializable {
 			else
 				isbnToConvert += isbn.charAt(i);
 		}
+		try {
+			if (checkValidIsbn(isbnToConvert) == false){
+				throw new IsbnInvalidException();
+			}
+		}catch (IsbnInvalidException e) {
+			System.out.println(e.getMessage());
+		}
+		
 		this.isbn = isbnToConvert;
 	}
 	public boolean checkValidIsbn(String isbn) { //Uses a method to verify an ISBN by hand, transcribed into code.

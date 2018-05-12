@@ -31,8 +31,7 @@ public class MainPane {
 			root.setCenter(peoplePane.getPane());
 			screenSizes.setCurrentScene(1);
 		});
-		Button textbookButton = new Button("Textbooks");
-		textbookButton.setMaxSize(Double.MAX_VALUE, screenSizes.getStageHeight() / 5);
+		
 		
 		Button coursesButton = new Button("Courses");
 		coursesButton.setMaxSize(Double.MAX_VALUE, screenSizes.getStageHeight() / 5);
@@ -41,10 +40,26 @@ public class MainPane {
 			root.setCenter(coursePane.getPane());
 			screenSizes.setCurrentScene(2);
 		});
+		
+		Button textbookButton = new Button("Textbooks");
+		textbookButton.setMaxSize(Double.MAX_VALUE, screenSizes.getStageHeight() / 5);
+		textbookButton.setOnAction(e ->{
+			TextbookPane textbookPane = new TextbookPane(allBags, screenSizes, root);
+			root.setCenter(textbookPane.getPane());
+			screenSizes.setCurrentScene(3);
+		});
+		
+		Button majorsButton = new Button("Majors");
+		majorsButton.setMaxSize(Double.MAX_VALUE,  screenSizes.getStageHeight() / 5);
+//		majorsButton.setOnAction(e ->{
+//			MajorPane majorPane = new MajorPane(allBags, screenSizes, root);
+//			root.setCenter(majorPane.getPane());
+//			screenSizes.setCurrentScene(4);
+//		});
 		HBox.setHgrow(peopleButton, Priority.ALWAYS);
 		HBox.setHgrow(textbookButton, Priority.ALWAYS);
 		HBox.setHgrow(coursesButton, Priority.ALWAYS);
-		navigationButtons.getChildren().addAll(peopleButton, textbookButton, coursesButton);
+		navigationButtons.getChildren().addAll(peopleButton, textbookButton, coursesButton, majorsButton);
 		navigationButtons.setAlignment(Pos.CENTER);
 		pane.setCenter(navigationButtons);
 	}

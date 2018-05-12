@@ -191,7 +191,9 @@ public class CoursePane {
 	}
 	private VBox buildUniversal(VBox mainDetails) {
 		updateSelectedCourse();
-
+		
+		Label courseHeader = new Label("Course");
+		courseHeader.setStyle("-fx-font-size: 24");
 		//Main Details Section (Top of BorderPane)
 		details.setPadding(new Insets(5));
 
@@ -217,7 +219,7 @@ public class CoursePane {
 		credits.setStyle("-fx-font-weight: bold");
 		Label creditsOutput = new Label(Integer.toString(currentlySelected.getNumberOfCredits()));
 
-		mainDetails.getChildren().addAll(courseTitle, courseTitleOutput, courseNumber, 
+		mainDetails.getChildren().addAll(courseHeader, courseTitle, courseTitleOutput, courseNumber, 
 				courseNumberOutput, isbn, isbnOutput, credits, creditsOutput);
 		return mainDetails;
 	}

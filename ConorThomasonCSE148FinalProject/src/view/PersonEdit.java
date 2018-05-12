@@ -136,9 +136,13 @@ public class PersonEdit {
 		});
 		applyButton.setOnAction(e ->{
 			selectedCourse = courseEdit.getSelectedCourse();
-			CompactCourse courseCopy = new CompactCourse(selectedCourse.getCourseNumber(), selectedCourse.getCourseGrade(), selectedCourse.getCourseType());		
-			courseCopy.setCourseType(courseEdit.getCourseTypeField().getValue().toString());
-			courseCopy.setCourseGrade(courseEdit.getCourseGradeField().getText());
+			CompactCourse courseCopy = new CompactCourse(selectedCourse.getCourseNumber(), selectedCourse.getCourseGrade(), selectedCourse.getCourseType());
+			String courseGrade = courseEdit.getCourseGradeField().getText();
+			if (courseGrade.equals("A") || courseGrade.equals("B") || courseGrade.equals("C") || courseGrade.equals("D") || courseGrade.equals("F"))
+				courseCopy.setCourseType("HAVE");
+			else
+				courseCopy.setCourseType(courseEdit.getCourseTypeField().getValue().toString());
+			courseCopy.setCourseGrade(courseGrade);
 			selectedStudent.getCourseBagArray().delete(courseCopy.getCourseNumber());
 			selectedStudent.getCourseBagArray().add(courseCopy.getCourseBagStyle());
 			selectedStudent.calculateGpa(selectedStudent.getCourseBagArray());

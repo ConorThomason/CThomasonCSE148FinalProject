@@ -32,7 +32,7 @@ public class Start extends Application {
 		primaryStage.setTitle("Conor Thomason CSE148 Final Project");
 		ScreenSizes screenSizes = new ScreenSizes(primaryStage, screenSize, 0);
 		primaryStage.setHeight(screenSize.getHeight() / 1.75);
-		primaryStage.setWidth(screenSize.getWidth() / 3);
+		primaryStage.setWidth(screenSize.getWidth() / 2.8);
 		BorderPane root = new BorderPane();
 		AllBags allBags = new AllBags();
 		allBags.load();
@@ -62,6 +62,12 @@ public class Start extends Application {
 			screenSizes.setCurrentScene(2);
 			root.setCenter(buttonCoursesPane.getPane());
 		});
+		MenuItem viewTextbooksItem = topPane.getViewTextbooksItem();
+		viewTextbooksItem.setOnAction(e ->{
+			TextbookPane buttonTextbookPane = new TextbookPane(allBags, screenSizes, root);
+			screenSizes.setCurrentScene(3);
+			root.setCenter(buttonTextbookPane.getPane());
+		});
 		primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
 			@Override public void changed(ObservableValue o, Number oldWidth, Number newWidth) {
 				if (screenSizes.getCurrentScene() == 0) {
@@ -75,6 +81,10 @@ public class Start extends Application {
 				else if (screenSizes.getCurrentScene() == 2) {
 					CoursePane coursePane = new CoursePane(allBags, screenSizes, root);
 					root.setCenter(coursePane.getPane());
+				}
+				else if (screenSizes.getCurrentScene() == 3) {
+					TextbookPane textbookPane = new TextbookPane(allBags, screenSizes, root);
+					root.setCenter(textbookPane.getPane());
 				}
 			}
 		});

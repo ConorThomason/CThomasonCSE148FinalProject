@@ -44,7 +44,7 @@ public class CourseAdd {
 	private void buildStage() {
 		addCourseStage = new Stage();
 		addCourseStage.setTitle("Add a Course");
-		addCourseStage.setHeight(screenSizes.getScreenHeight() / 5.5);
+		addCourseStage.setHeight(screenSizes.getScreenHeight() / 6);
 		addCourseStage.setWidth(screenSizes.getScreenWidth() / 7);
 	}
 	private void buildScene() {
@@ -57,7 +57,14 @@ public class CourseAdd {
 		saveButton.setOnAction(e ->{
 			MasterCourseBag bagToConvert = allBags.getMasterCourseBag();
 			MasterCourseBag convertBag = new MasterCourseBag(bagToConvert.getNumberOfCourses() + 1);
-			Textbook constructorTextbook = allBags.getTextbookBag().getTextbook(textbookIsbnField.getText());
+			Textbook constructorTextbook;
+			if (allBags.getTextbookBag().find(textbookIsbnField.getText()) != -1) {
+				constructorTextbook = allBags.getTextbookBag().getTextbook(textbookIsbnField.getText());
+			}
+			else {
+				Util.displayError("Textbook not found in Textbook Bag; no textbook will be assigned.");
+				constructorTextbook = null;
+			}
 			int constructorCredits = 0;
 			try {
 				constructorCredits = Integer.parseInt(creditsField.getText());
@@ -82,43 +89,34 @@ public class CourseAdd {
 	}
 	public BorderPane buildFormBoxes() {
 		BorderPane splitter = new BorderPane();
-		VBox universalBox = buildUniversal();
-		splitter.setLeft(universalBox);
+		HBox universalBox = buildUniversal();
+		universalBox.setAlignment(Pos.CENTER);
+		BorderPane.setMargin(universalBox, new Insets(10));
+		splitter.setCenter(universalBox);
 		return splitter;
 	}
-	private VBox buildUniversal() {
+	private HBox buildUniversal() {
 		
-		VBox universalBox = new VBox(5);
+		HBox universalBox = new HBox(5);
+		VBox leftBox = new VBox(14);
+		VBox rightBox = new VBox(5);
 		
-		HBox courseTitleBox = new HBox();
 		Label courseTitleLabel = new Label("Course Title: ");
 		courseTitleField = new TextField();
-		courseTitleBox.getChildren().addAll(courseTitleLabel, courseTitleField);
-		courseTitleBox.setAlignment(Pos.CENTER_RIGHT);
-		VBox.setMargin(courseTitleBox, new Insets(5));
 		
-		HBox courseNumberBox = new HBox();
 		Label courseNumberLabel = new Label("Course Number: ");
 		courseNumberField = new TextField();
-		courseNumberBox.getChildren().addAll(courseNumberLabel, courseNumberField);
-		courseNumberBox.setAlignment(Pos.CENTER_RIGHT);
-		VBox.setMargin(courseNumberBox, new Insets(5));
 		
-		HBox textbookIsbnBox = new HBox();
 		Label textbookIsbnLabel = new Label("Textbook ISBN:  ");
 		textbookIsbnField = new TextField();
-		textbookIsbnBox.getChildren().addAll(textbookIsbnLabel, textbookIsbnField);
-		textbookIsbnBox.setAlignment(Pos.CENTER_RIGHT);
-		VBox.setMargin(textbookIsbnBox, new Insets(5));
 		
-		HBox creditsBox = new HBox();
 		Label creditsLabel = new Label("Credits: ");
 		creditsField = new TextField();
-		creditsBox.getChildren().addAll(creditsLabel, creditsField);
-		creditsBox.setAlignment(Pos.CENTER_RIGHT);
-		VBox.setMargin(creditsBox, new Insets(5));
 		
-		universalBox.getChildren().addAll(courseTitleBox, courseNumberBox, textbookIsbnBox, creditsBox);
+		leftBox.getChildren().addAll(courseTitleLabel, courseNumberLabel, textbookIsbnLabel, creditsLabel);
+		rightBox.getChildren().addAll(courseTitleField, courseNumberField, textbookIsbnField, creditsField);
+		
+		universalBox.getChildren().addAll(leftBox, rightBox);
 		return universalBox;
 	}
 	private HBox buildButtonBox() {
