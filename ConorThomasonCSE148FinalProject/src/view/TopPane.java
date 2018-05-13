@@ -46,7 +46,6 @@ public class TopPane {
 	}
 	private void buildMenuBar(AllBags allBags, ScreenSizes screenSizes) {
 		Menu fileMenu = new Menu("File");
-		MenuItem  newMenuItem = new MenuItem("New");
 		MenuItem saveMenuItem = new MenuItem("Save All");
 		saveMenuItem.setOnAction(e -> {
 			allBags.save();
@@ -115,57 +114,8 @@ public class TopPane {
 		exportCoursesItem.setOnAction(e ->{
 			allBags.getMasterCourseBag().exportData();
 		});
-		viewMainItem.setOnAction(e ->{
-			MainPane buttonMainPane = new MainPane(screenSizes, root, allBags);
-			screenSizes.setCurrentScene(0);
-			root.setCenter(buttonMainPane.getPane());
-			});
-		viewPeopleItem.setOnAction(e ->{
-			PeoplePane buttonPeoplePane = new PeoplePane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(1);
-			root.setCenter(buttonPeoplePane.getPane());
-		});
-		viewCoursesItem.setOnAction(e ->{
-			CoursePane buttonCoursesPane = new CoursePane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(2);
-			root.setCenter(buttonCoursesPane.getPane());
-		});
-		viewTextbooksItem.setOnAction(e ->{
-			TextbookPane buttonTextbookPane = new TextbookPane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(3);
-			root.setCenter(buttonTextbookPane.getPane());
-		});
-		viewMajorsItem.setOnAction(e ->{
-			MajorPane buttonMajorPane = new MajorPane(allBags, screenSizes, root);
-			screenSizes.setCurrentScene(4);
-			root.setCenter(buttonMajorPane.getPane());
-		});
-		stage.widthProperty().addListener(new ChangeListener<Number>() {
-			@Override public void changed(ObservableValue o, Number oldWidth, Number newWidth) {
-				if (screenSizes.getCurrentScene() == 0) {
-					MainPane mainPane = new MainPane(screenSizes, root, allBags);
-					root.setCenter(mainPane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 1) {
-					PeoplePane peoplePane = new PeoplePane(allBags, screenSizes, root);
-					root.setCenter(peoplePane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 2) {
-					CoursePane coursePane = new CoursePane(allBags, screenSizes, root);
-					root.setCenter(coursePane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 3) {
-					TextbookPane textbookPane = new TextbookPane(allBags, screenSizes, root);
-					root.setCenter(textbookPane.getPane());
-				}
-				else if (screenSizes.getCurrentScene() == 4) {
-					MajorPane majorPane = new MajorPane(allBags, screenSizes, root);
-					root.setCenter(majorPane.getPane());
-				}
-			}
-		});
 		
-		fileMenu.getItems().addAll(newMenuItem, loadMenuItem, saveMenuItem, exitMenuItem);
+		fileMenu.getItems().addAll(loadMenuItem, saveMenuItem, exitMenuItem);
 		viewMenu.getItems().addAll(viewMainItem, viewPeopleItem, viewTextbooksItem, viewCoursesItem, viewMajorsItem);
 		importMenu.getItems().addAll(importTextbooksItem, importPeopleItem, importCoursesItem);
 		exportMenu.getItems().addAll(exportTextbooksItem, exportPeopleItem, exportCoursesItem);

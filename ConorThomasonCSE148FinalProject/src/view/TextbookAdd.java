@@ -76,6 +76,7 @@ public class TextbookAdd {
 			}
 			convertBag.add(textbook);
 			allBags.setTextbookBag(convertBag);
+			allBags.getTextbookBag().save();
 			addTextbookStage.close();
 			}
 		});

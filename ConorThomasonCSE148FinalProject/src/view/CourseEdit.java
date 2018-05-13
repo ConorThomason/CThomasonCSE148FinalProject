@@ -80,23 +80,23 @@ public class CourseEdit {
 		Label courseTitleLabel = new Label("Course Title: ");
 		courseTitleField = new TextField(selectedCourse.getCourseTitle());
 		courseTitleField.setMinWidth(editCourseStage.getWidth() / 2);
-		
+
 		Label courseNumberLabel = new Label("Course Number: ");
 		courseNumberField = new TextField(selectedCourse.getCourseNumber());
 
 		Label textbookIsbn = new Label("Textbook ISBN: ");
 		textbookIsbnField = new TextField(selectedCourse.getTextbookIsbn());
-		
+
 		Label creditsLabel = new Label("Credits: ");
 		creditsField = new TextField(Integer.toString(selectedCourse.getNumberOfCredits()));
-		
+
 		leftBox.getChildren().addAll(courseTitleLabel, courseNumberLabel, textbookIsbn, creditsLabel);
 		rightBox.getChildren().addAll(courseTitleField, courseNumberField, textbookIsbnField, creditsField);
 		detailsBox.getChildren().addAll(leftBox, rightBox);
 		detailsBox.setAlignment(Pos.CENTER);
 		return detailsBox;
 	}
-	
+
 	private HBox buildButtonBox() {
 		HBox bottomButtonBox = new HBox();
 		saveButton = new Button("Save");
@@ -105,23 +105,25 @@ public class CourseEdit {
 		saveButton.setOnAction(e ->{
 			selectedCourse.setCourseTitle(courseTitleField.getText());
 			selectedCourse.setCourseNumber(courseNumberField.getText());
-			if (allBags.getTextbookBag().find(textbookIsbnField.getText()) != -1) {
-				selectedCourse.setTextbookIsbn(textbookIsbnField.getText());
-			}
-			else if (textbookIsbnField.getText().equals("")) {
-				selectedCourse.setTextbookIsbn(null);
-			}
-			else {
-				Util.displayError("Textbook ISBN not found, previous ISBN will be saved");
-			}
 			try {
-				selectedCourse.setNumberOfCredits(Integer.parseInt(creditsField.getText()));
-			} catch(NumberFormatException f) {
-				Util.displayError("Invalid input for credits, value will remain unchanged");
-			}
-			editCourseStage.close();
-
-		});
+				if (allBags.getTextbookBag().find(textbookIsbnField.getText()) != -1) {
+					selectedCourse.setTextbookIsbn(textbookIsbnField.getText());
+				} 
+				else if (textbookIsbnField.getText().equals("")) {
+					selectedCourse.setTextbookIsbn(null);
+				}
+				else {
+					Util.displayError("Textbook ISBN not found, previous ISBN will be saved");
+				}} catch (NullPointerException f) {
+					selectedCourse.setTextbookIsbn(null);
+					try {
+						selectedCourse.setNumberOfCredits(Integer.parseInt(creditsField.getText()));
+					} catch(NumberFormatException g) {
+						Util.displayError("Invalid input for credits, value will remain unchanged");
+					}
+					editCourseStage.close();
+					allBags.getMasterCourseBag().save();
+				}});
 		cancelButton = new Button("Cancel");
 		cancelButton.setMinWidth(editCourseStage.getWidth() / 8);
 		cancelButton.setMaxHeight(editCourseStage.getHeight() / 10);
@@ -134,11 +136,11 @@ public class CourseEdit {
 		HBox.setMargin(cancelButton, new Insets(10));
 		bottomButtonBox.setAlignment(Pos.CENTER_RIGHT);
 		return bottomButtonBox;
+		}
+		public AllBags getAllBags() {
+			return allBags;
+		}
+		public Stage getStage() {
+			return editCourseStage;
+		}
 	}
-	public AllBags getAllBags() {
-		return allBags;
-	}
-	public Stage getStage() {
-		return editCourseStage;
-	}
-}

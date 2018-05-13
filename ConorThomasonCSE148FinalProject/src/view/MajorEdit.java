@@ -160,7 +160,12 @@ public class MajorEdit {
 		
 		Button addCourseButton = new Button("Add Selected Course");
 		addCourseButton.setOnAction(e ->{
+			if (selectedMajor.find(selectedCourse.getCourseNumber()) != -1) {
+				Util.displayError("This Course has already been added to this Major");
+			}
+			else {
 			selectedMajor.add(selectedCourse.getCourseNumber());
+			}
 			MajorEdit newEditMajorStage = new MajorEdit(allBags, screenSizes, selectedMajor);
 			editMajorStage.close();
 			newEditMajorStage.getStage().show();

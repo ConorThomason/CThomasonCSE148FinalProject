@@ -80,6 +80,7 @@ public class CourseAdd {
 			}
 			convertBag.add(course);
 			allBags.setMasterCourseBag(convertBag);
+			allBags.getMasterCourseBag().save();
 			addCourseStage.close();
 		});
 		cancelButton.setOnAction(e ->{

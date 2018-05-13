@@ -40,6 +40,7 @@ public class Demo {
 		textbookBag.add(textbook4);
 		textbookBag.add(textbook5);
 		textbookBag.add(textbook6);
+		textbookBag.exportData();
 		textbookBag.save();
 		personBag.add(faculty1);
 		personBag.add(student1);

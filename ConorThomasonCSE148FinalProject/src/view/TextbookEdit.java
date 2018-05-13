@@ -117,6 +117,7 @@ public class TextbookEdit {
 				Util.displayError("Input ISBN does not conform to ISBN standards; ISBN set to \"TO BE INPUT\"");
 				selectedTextbook.setIsbn("TOBEINPUT");
 			}
+			allBags.getTextbookBag().save();
 			editTextbookStage.close();
 		});
 		cancelButton = new Button("Cancel");

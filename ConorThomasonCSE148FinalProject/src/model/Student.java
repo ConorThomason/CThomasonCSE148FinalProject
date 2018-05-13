@@ -79,7 +79,7 @@ public class Student extends Person implements java.io.Serializable {
 		double totalPoints = 0;
 		int totalCredits = 0;
 		MasterCourseBag masterCourseBag = new MasterCourseBag(50);
-		masterCourseBag.importData("DEFAULT");
+		masterCourseBag.load();
 		for (int i = 0; i < courseBag.getCourseCount(); i++) {
 			String[] courseInfo = courseBag.getCourseInfo(i);
 			if (courseInfo[1].equals("IP") || courseInfo[1].equals("N/A") || courseInfo[1].equals("W")) {

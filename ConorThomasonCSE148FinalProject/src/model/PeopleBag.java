@@ -46,8 +46,21 @@ public class PeopleBag implements java.io.Serializable {
 			validityState = ((Faculty) person).checkDataValidity();
 		}
 		if (validityState) {
+			try {
 			people[itemCount++] = person;
+			} catch (ArrayIndexOutOfBoundsException e) {
+				itemCount--;
+				increaseArraySize();
+				add(person);
+			}
 		}
+	}
+	public void increaseArraySize() {
+		Person[] newPeople = new Person[people.length + 1];
+		for (int i = 0; i < people.length; i++) {
+			newPeople[i] = people[i];
+		}
+		people = newPeople.clone();
 	}
 	public boolean isDuplicate(String id) {
 		if (this.find(id) == -1)
