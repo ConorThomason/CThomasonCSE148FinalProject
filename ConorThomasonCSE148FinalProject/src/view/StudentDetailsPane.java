@@ -36,12 +36,16 @@ public class StudentDetailsPane {
 		}
 		else {
 			gpaValue = gpaValue.substring(0, 4);
+			
 		}
 		Label gpaOutput = new Label(gpaValue);
-		
 		Label major = new Label("Major: ");
 		major.setStyle("-fx-font-weight: bold");
-		Label majorOutput = new Label(currentlySelected.getMajor());
+		Label majorOutput;
+		if (currentlySelected.getMajor() == null || currentlySelected.getMajor().equals(""))
+			majorOutput = new Label("No Major");
+		else
+			majorOutput = new Label(currentlySelected.getMajor());
 		studentDetails.getChildren().addAll(gpa, gpaOutput, major, majorOutput);
 		pane.setTop(studentDetails);
 		

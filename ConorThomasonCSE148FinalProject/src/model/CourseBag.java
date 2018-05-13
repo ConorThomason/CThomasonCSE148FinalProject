@@ -52,6 +52,7 @@ public class CourseBag implements java.io.Serializable {
 	}
 	public CourseBag(String fileName,String major) {
 		super();
+		if (!(major == null))
 		this.setCoursesToGraduate(fileName, major);
 	}
 
@@ -59,12 +60,15 @@ public class CourseBag implements java.io.Serializable {
 		major = major.toUpperCase();
 		MajorCourseBag majorBag = new MajorCourseBag(file, major);
 		String[] arrayToFill = majorBag.getCourseNumbers();
+		try {
 		itemCount = arrayToFill.length;
 		courses = new String[itemCount][3];
 		for (int i = 0; i < itemCount; i++) {
 			courses[i][0] = arrayToFill[i];
 			this.setGrade(courses[i][CNUMBER], null);
 			this.setCourseType(courses[i][CNUMBER], "NEED");
+		}
+		} catch (NullPointerException e) {
 		}
 	}
 	public int find(String courseNumber) {

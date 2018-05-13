@@ -48,7 +48,7 @@ public class PersonAdd {
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();
-		
+
 		//Save button setup and scene setup
 		HBox buttonBox = buildButtonBox();
 		inputRoot.setBottom(buttonBox);
@@ -64,13 +64,25 @@ public class PersonAdd {
 						largestId = Integer.parseInt(bagToConvert.getPerson(i).getId());
 				}
 				Person.setCurrentId(largestId + 1);
-				Student student = new Student(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), majorField.getText());
-				for (int i = 0; i < bagToConvert.getPeopleCount(); i++) {
-					convertBag.add(bagToConvert.getPerson(i));
+				if (majorField.getText() != null) {
+					Student student = new Student(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), majorField.getText());
+					for (int i = 0; i < bagToConvert.getPeopleCount(); i++) {
+						convertBag.add(bagToConvert.getPerson(i));
+					}
+					convertBag.add(student);
+					allBags.setPeopleBag(convertBag);
+					addPersonStage.close();
 				}
-				convertBag.add(student);
-				allBags.setPeopleBag(convertBag);
-				addPersonStage.close();
+				else
+				{
+					Student student = new Student(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), null);
+					for (int i = 0; i < bagToConvert.getPeopleCount(); i++) {
+						convertBag.add(bagToConvert.getPerson(i));
+					}
+					convertBag.add(student);
+					allBags.setPeopleBag(convertBag);
+					addPersonStage.close();
+				}
 			}
 			if (selectedRadioButton == facultyButton) {
 				//Check to make sure that the new input has a unique id (When taking into account the data imported via save/load or import/export)
@@ -109,11 +121,11 @@ public class PersonAdd {
 			inputRoot.setCenter(buildFormBoxes());
 		});
 		radioButtons.getChildren().addAll(studentButton, facultyButton);
-		
+
 		inputRoot.setLeft(radioButtons);
 		radioButtons.setAlignment(Pos.CENTER_LEFT);
 		BorderPane.setMargin(radioButtons, new Insets(10));
-		
+
 		//Acquires a VBox containing all of the text input boxes.
 		inputRoot.setCenter(buildFormBoxes());
 		personAddScene = new Scene(inputRoot, addPersonStage.getHeight(), addPersonStage.getWidth());
@@ -122,7 +134,7 @@ public class PersonAdd {
 		BorderPane splitter = new BorderPane();
 		VBox universalBox = buildUniversal();
 		splitter.setLeft(universalBox);
-		
+
 		VBox typeBox = new VBox();
 		updateSelectedButton();
 		if (selectedRadioButton == facultyButton)
@@ -137,63 +149,63 @@ public class PersonAdd {
 	}
 	private VBox buildStudentSpecific() {
 		VBox studentBox = new VBox(5);
-		
+
 		HBox majorBox = new HBox(5);
 		Label majorLabel = new Label("Major:");
 		majorField = new TextField();
 		majorBox.getChildren().addAll(majorLabel, majorField);
-		
+
 		studentBox.getChildren().addAll(majorBox);
 		majorBox.setAlignment(Pos.CENTER_RIGHT);
 		VBox.setMargin(majorBox, new Insets(5));
 		return studentBox;
-		
+
 	}
 	private VBox buildFacultySpecific() { 
 		VBox facultyBox = new VBox(5);
-		
+
 		HBox titleBox = new HBox();
 		Label titleLabel = new Label("Title: ");
 		titleField = new TextField();
 		titleBox.getChildren().addAll(titleLabel, titleField);
 		titleBox.setAlignment(Pos.CENTER_RIGHT);
 		VBox.setMargin(titleBox, new Insets(5));
-		
+
 		HBox salaryBox = new HBox();
 		Label salaryLabel = new Label("Salary: ");
 		salaryField = new TextField();
 		salaryBox.getChildren().addAll(salaryLabel, salaryField);
 		salaryBox.setAlignment(Pos.CENTER_RIGHT);
 		VBox.setMargin(salaryBox, new Insets(5));
-		
+
 		facultyBox.getChildren().addAll(titleBox, salaryBox);
 		return facultyBox;
 	}
 	private VBox buildUniversal() {
-		
+
 		VBox universalBox = new VBox(5);
-		
+
 		HBox firstNameBox = new HBox();
 		Label firstNameLabel = new Label("First Name: ");
 		firstNameField = new TextField();
 		firstNameBox.getChildren().addAll(firstNameLabel, firstNameField);
 		firstNameBox.setAlignment(Pos.CENTER_RIGHT);
 		VBox.setMargin(firstNameBox, new Insets(5));
-		
+
 		HBox lastNameBox = new HBox();
 		Label lastNameLabel = new Label("Last Name: ");
 		lastNameField = new TextField();
 		lastNameBox.getChildren().addAll(lastNameLabel, lastNameField);
 		lastNameBox.setAlignment(Pos.CENTER_RIGHT);
 		VBox.setMargin(lastNameBox, new Insets(5));
-		
+
 		HBox phoneNumberBox = new HBox();
 		Label phoneNumberLabel = new Label("Phone: ");
 		phoneNumberField = new TextField();
 		phoneNumberBox.getChildren().addAll(phoneNumberLabel, phoneNumberField);
 		phoneNumberBox.setAlignment(Pos.CENTER_RIGHT);
 		VBox.setMargin(phoneNumberBox, new Insets(5));
-		
+
 		universalBox.getChildren().addAll(firstNameBox, lastNameBox, phoneNumberBox);
 		return universalBox;
 	}
@@ -202,11 +214,11 @@ public class PersonAdd {
 		saveButton = new Button("Save");
 		saveButton.setMinWidth(addPersonStage.getWidth() / 8);
 		saveButton.setMinHeight(addPersonStage.getHeight() / 8);
-		
+
 		cancelButton = new Button("Cancel");
 		cancelButton.setMinWidth(addPersonStage.getWidth() / 8);
 		cancelButton.setMinHeight(addPersonStage.getHeight() / 8);
-		
+
 		bottomButtonBox.getChildren().addAll(saveButton, cancelButton);
 		bottomButtonBox.setAlignment(Pos.CENTER);
 		HBox.setMargin(saveButton, new Insets(10));

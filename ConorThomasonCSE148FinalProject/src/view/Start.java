@@ -35,13 +35,14 @@ public class Start extends Application {
 		primaryStage.setWidth(screenSize.getWidth() / 2.8);
 		BorderPane root = new BorderPane();
 		AllBags allBags = new AllBags();
-		allBags.load();
+		
 		//Initial menu
 		Scene scene = new Scene(root, primaryStage.getHeight(), primaryStage.getWidth());
 		TopPane topPane = new TopPane(allBags, primaryStage, root, screenSizes);
 		MainPane mainPane = new MainPane(screenSizes, root, allBags);
 		root.setTop(topPane.getMenuBar());
 		root.setCenter(mainPane.getPane());
+		
 		MenuItem viewMainItem = topPane.getViewMainItem();
 		viewMainItem.setOnAction(e ->{
 			MainPane buttonMainPane = new MainPane(screenSizes, root, allBags);

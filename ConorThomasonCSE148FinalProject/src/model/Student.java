@@ -115,8 +115,6 @@ public class Student extends Person implements java.io.Serializable {
 			this.setCourseBag(majorBag);
 		} catch(IllegalArgumentException e) {
 			System.out.println("The Major entry for this " + this.getClass().getSimpleName() + ", appears to be an incorrect/invalid entry, please try again");
-		} catch(NullPointerException e) {
-			this.major = null;
 		}
 	}
 	public CourseBag getCourseBagArray() {

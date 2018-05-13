@@ -1,5 +1,6 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,10 +17,11 @@ public class MainPane {
 	
 	public MainPane(ScreenSizes screenSizes, BorderPane root, AllBags allBags) {
 		buildPane(screenSizes, root, allBags);
-		Label placeHolder = new Label("PLACEHOLDER");
-		placeHolder.setStyle("-fx-font-size: 75");
+		Label placeHolder = new Label("SUNYSuffolk Course Management");
+		placeHolder.setStyle("-fx-font-size: 50");
 		pane.setTop(placeHolder);
 		BorderPane.setAlignment(placeHolder, Pos.CENTER);
+		BorderPane.setMargin(placeHolder, new Insets(50));
 	}
 	private void buildPane(ScreenSizes screenSizes, BorderPane root, AllBags allBags) {
 		pane = new BorderPane();

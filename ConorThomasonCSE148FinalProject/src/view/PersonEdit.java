@@ -130,6 +130,9 @@ public class PersonEdit {
 			selectedStudent.setFirstName(firstNameField.getText());
 			selectedStudent.setLastName(lastNameField.getText());
 			selectedStudent.setPhoneNumber(phoneNumberField.getText());
+			if (majorField.getText() == null) {
+				selectedStudent.setMajor(null);
+			}
 			if (!selectedStudent.getMajor().equals(majorField.getText()))
 				selectedStudent.setMajor(majorField.getText());
 			editPersonStage.close();
@@ -232,7 +235,11 @@ public class PersonEdit {
 		phoneNumberField = new TextField(selectedStudent.getPhoneNumber());
 		
 		Label majorLabel = new Label("Major:");
+		try {
 		majorField = new TextField(selectedStudent.getMajor());
+		} catch (NullPointerException e) {
+			majorField.setText("No Major");
+		}
 		
 		VBox studentBox = new VBox();
 		leftBox.getChildren().addAll(firstNameLabel, lastNameLabel, phoneNumberLabel, majorLabel);

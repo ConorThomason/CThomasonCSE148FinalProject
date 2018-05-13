@@ -28,10 +28,14 @@ public class TopPane {
 	private MenuItem importTextbooksItem;
 	private MenuItem importPeopleItem;
 	private MenuItem importCoursesItem;
+	private MenuItem importMajorsItem;
 	private Menu exportMenu;
 	private MenuItem exportTextbooksItem;
 	private MenuItem exportPeopleItem;
 	private MenuItem exportCoursesItem;
+	private MenuItem exportMajorsItem;
+	private MenuItem loadMenuItem;
+	
 	private AllBags allBags;
 	private BorderPane root;
 	private ScreenSizes screenSizes;
@@ -50,11 +54,6 @@ public class TopPane {
 		saveMenuItem.setOnAction(e -> {
 			allBags.save();
 		});
-		MenuItem loadMenuItem = new MenuItem("Load All");
-		loadMenuItem.setOnAction(e -> {
-			allBags.load();
-		});
-		
 		MenuItem exitMenuItem = new MenuItem("Exit");
 		exitMenuItem.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -66,6 +65,10 @@ public class TopPane {
 					Platform.exit();
 				};
 			});
+		});
+		loadMenuItem = new MenuItem("Load All");
+		loadMenuItem.setOnAction(e ->{
+			allBags.load();
 		});
 		viewMenu = new Menu("View");
 		viewMainItem = new MenuItem("Main Menu");
@@ -101,6 +104,15 @@ public class TopPane {
 			rebuildScene(screenSizes);
 			allBags.getMasterCourseBag().importData(fileToImport);
 		});
+		importMajorsItem = new MenuItem("Majors");
+		importMajorsItem.setOnAction(e ->{
+			String fileToImport = Util.getFile(stage);
+			if (fileToImport == null)
+				fileToImport = "DEFAULT";
+			rebuildScene(screenSizes);
+			allBags.getAllMajorBags().importAllMajors(fileToImport);
+		});
+		
 		exportMenu = new Menu("Export");
 		exportTextbooksItem = new MenuItem("Textbooks");
 		exportTextbooksItem.setOnAction(e ->{
@@ -114,11 +126,15 @@ public class TopPane {
 		exportCoursesItem.setOnAction(e ->{
 			allBags.getMasterCourseBag().exportData();
 		});
+		exportMajorsItem = new MenuItem("Majors");
+		exportMajorsItem.setOnAction(e ->{
+			allBags.getAllMajorBags().exportAllMajors();
+		});
 		
 		fileMenu.getItems().addAll(loadMenuItem, saveMenuItem, exitMenuItem);
 		viewMenu.getItems().addAll(viewMainItem, viewPeopleItem, viewTextbooksItem, viewCoursesItem, viewMajorsItem);
-		importMenu.getItems().addAll(importTextbooksItem, importPeopleItem, importCoursesItem);
-		exportMenu.getItems().addAll(exportTextbooksItem, exportPeopleItem, exportCoursesItem);
+		importMenu.getItems().addAll(importTextbooksItem, importPeopleItem, importCoursesItem, importMajorsItem);
+		exportMenu.getItems().addAll(exportTextbooksItem, exportPeopleItem, exportCoursesItem, exportMajorsItem);
 		
 		importExportMenu.getItems().addAll(importMenu, exportMenu);
 		menuBar = new MenuBar(); //Removal of this breaks everything. Don't remove it.
@@ -140,6 +156,12 @@ public class TopPane {
 			viewMajorsItem.fire();
 			break;
 		}
+	}
+	public MenuItem getLoadMenuItem() {
+		return loadMenuItem;
+	}
+	public void setLoadMenuItem(MenuItem loadMenuItem) {
+		this.loadMenuItem = loadMenuItem;
 	}
 	public MenuItem getViewMajorsItem() {
 		return viewMajorsItem;
