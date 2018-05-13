@@ -12,3 +12,11 @@ Language, Logic and Proof&&& MAT200&&& 3&&&
 Calculus with Analytic Geometry III&&& MAT203&&& Calculus: Multivariable Calculus&&& Stewart&&& Cengage Learning&&& $305.75&&& 9781305266643&&& 4&&& 
 Differential Equations&&& MAT204&&& 4&&& 
 Linear Algebra&&& MAT206&&& 4&&& 
+Physics I&&& PHY130&&& 3&&& 
+Physics I Lab&&& PHY132&&& 1&&& 
+Physics II&&& PHY230&&& 3&&& 
+Physics II Lab&&& PHY232&&& 4&&& 
+Physics III&&& PHY245&&& 3&&& 
+Physics III Lab&&& PHY246&&& 1&&& 
+Modern Physics&&& PHY247&&& 3&&& 
+Modern Physics Lab&&& PHY248&&& 1&&& 

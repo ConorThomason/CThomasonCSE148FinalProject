@@ -1,3 +1,5 @@
 Faculty: &&& FacultyFirst&&& FacultyLast&&& 2&&& 222-222-2222&&& Prof.&&& $60000&&& 
-Student: &&& StudentFirst&&& StudentLast&&& 1&&& 111-111-1111&&& NaN&&& COMPUTER SCIENCE&&& 
-6&&& CSE110&&& N/A&&& NEED&&& CSE118&&& N/A&&& NEED&&& CSE148&&& N/A&&& NEED&&& CSE218&&& N/A&&& NEED&&& CSE222&&& N/A&&& NEED&&& CSE248&&& N/A&&& NEED&&& &&& 
+Student: &&& StudentFirst&&& StudentLast&&& 1&&& 111-111-1111&&& 1.2727272727272727&&& COMPUTER SCIENCE&&& 
+6&&& CSE222&&& N/A&&& NEED&&& CSE248&&& N/A&&& NEED&&& CSE110&&& C&&& HAVE&&& CSE118&&& D&&& HAVE&&& CSE148&&& F&&& HAVE&&& CSE218&&& B&&& HAVE&&& &&& 
+Student: &&& PhysicsMajor&&& PhysicsMajorLast&&& 3&&& 333-333-3333&&& 3.642857142857143&&& PHYSICS&&& 
+8&&& PHY246&&& N/A&&& NEED&&& PHY247&&& N/A&&& NEED&&& PHY248&&& N/A&&& NEED&&& PHY130&&& B&&& HAVE&&& PHY132&&& C&&& HAVE&&& PHY230&&& A&&& HAVE&&& PHY232&&& A&&& HAVE&&& PHY245&&& A&&& HAVE&&& &&& 
