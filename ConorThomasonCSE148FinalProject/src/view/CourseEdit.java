@@ -121,9 +121,10 @@ public class CourseEdit {
 					} catch(NumberFormatException g) {
 						Util.displayError("Invalid input for credits, value will remain unchanged");
 					}
+				}
 					editCourseStage.close();
 					allBags.getMasterCourseBag().save();
-				}});
+				});
 		cancelButton = new Button("Cancel");
 		cancelButton.setMinWidth(editCourseStage.getWidth() / 8);
 		cancelButton.setMaxHeight(editCourseStage.getHeight() / 10);
