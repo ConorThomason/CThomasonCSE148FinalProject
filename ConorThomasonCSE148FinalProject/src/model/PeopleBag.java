@@ -98,19 +98,23 @@ public class PeopleBag implements java.io.Serializable {
 	}
 	public Person delete(String id) {
 		int index = this.find(id);
-
-		if (people[index].getId().equals(id)) {
+		if (index == -1) {
+			System.out.println("This Person does not exist.");
+			return null;
+		}
+		else {
 			Person deletedPerson = people[index];
-			for (int i = 0; i < itemCount-1; i++)
-			{
+			for (int i = index; i < itemCount-1; i++) {
+				if (i == itemCount-1)
+				{
+					people[i] = null;
+				}
+				else {
 				people[i] = people[i+1];
+				}
 			}
 			itemCount--;
 			return deletedPerson;
-		}
-		else {
-			System.out.println("This person does not exist.");
-			return null;
 		}
 	}
 	public void save() {
