@@ -65,8 +65,8 @@ public class PersonEdit {
 	private void buildStage() {
 		editPersonStage = new Stage();
 		editPersonStage.setTitle("Edit a Person");
-		editPersonStage.setHeight(screenSizes.getScreenHeight() / 1.8);
-		editPersonStage.setWidth(screenSizes.getScreenWidth() / 5);
+		editPersonStage.setHeight(screenSizes.getScreenHeight() / 1.4);
+		editPersonStage.setWidth(screenSizes.getScreenWidth() / 3);
 	}
 	private void buildScene(Faculty selectedFaculty) {
 		BorderPane inputRoot = new BorderPane();

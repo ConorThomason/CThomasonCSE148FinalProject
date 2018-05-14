@@ -73,12 +73,16 @@ public class TextbookPane {
 		editButton = new Button("Edit");
 
 		editButton.setOnAction(e ->{
+			if (currentlySelected != null) {
 			textbookEditStage = new TextbookEdit(allBags, screenSizes, currentlySelected);
 			textbookEditStage.getStage().showAndWait();
 			buildTable();
 			buildDetails();
 			buildPane();
 			root.setCenter(this.getPane());
+			}
+			else
+				Util.displayError("No Textbook Selected");
 		});
 		addButton = new Button("Add");
 		addButton.setOnAction(e ->{
@@ -97,11 +101,15 @@ public class TextbookPane {
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
+					try {
 					allBags.getTextbookBag().delete(currentlySelected.getIsbn());
 					buildTable();
 					buildDetails();
 					buildPane();
 					root.setCenter(this.getPane());
+					} catch (NullPointerException f) {
+						Util.displayError("No Textbook Selected");
+					}
 				};
 			});
 		});

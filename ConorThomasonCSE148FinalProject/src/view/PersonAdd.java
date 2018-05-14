@@ -43,8 +43,8 @@ public class PersonAdd {
 	private void buildStage() {
 		addPersonStage = new Stage();
 		addPersonStage.setTitle("Add a Person");
-		addPersonStage.setHeight(screenSizes.getScreenHeight() / 7);
-		addPersonStage.setWidth(screenSizes.getScreenWidth() / 4.75);
+		addPersonStage.setHeight(screenSizes.getScreenHeight() / 5);
+		addPersonStage.setWidth(screenSizes.getScreenWidth() / 3);
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();

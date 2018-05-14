@@ -59,7 +59,7 @@ public class MajorEdit {
 		refreshData(allBags);
 		refreshMajorData(allBags);
 		editMajorStage.setHeight(screenSizes.getScreenHeight() / 2);
-		editMajorStage.setWidth(screenSizes.getScreenWidth() / 3);
+		editMajorStage.setWidth(screenSizes.getScreenWidth() / 1.8);
 		BorderPane inputRoot = new BorderPane();
 		//Save button setup and scene setup
 		VBox buttonBox = buildButtonBox();
@@ -191,7 +191,7 @@ public class MajorEdit {
 		saveButton.setMaxHeight(editMajorStage.getHeight() / 10);
 		saveButton.setOnAction(e ->{
 			allBags.save();
-			allBags.getAllMajorBags().exportAllMajors();
+			allBags.getAllMajorBags().save();
 			editMajorStage.close();
 		});
 		cancelButton = new Button("Cancel");

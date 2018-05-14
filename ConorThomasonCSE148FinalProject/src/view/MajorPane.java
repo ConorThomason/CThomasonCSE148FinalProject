@@ -73,12 +73,15 @@ public class MajorPane {
 		editButton = new Button("Edit");
 
 		editButton.setOnAction(e ->{
+			if (currentlySelected != null) {
 			majorEditStage = new MajorEdit(allBags, screenSizes, currentlySelected);
 			majorEditStage.getStage().showAndWait();
 			buildTable();
 			buildDetails();
 			buildPane();
 			root.setCenter(this.getPane());
+			} else
+				Util.displayError("No Major Selected");
 		});
 		addButton = new Button("Add");
 		addButton.setOnAction(e ->{
@@ -97,11 +100,15 @@ public class MajorPane {
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
+					try {
 					allBags.getAllMajorBags().delete(currentlySelected.getMajorName());
 					buildTable();
 					buildDetails();
 					buildPane();
 					root.setCenter(this.getPane());
+					} catch (NullPointerException f) {
+						Util.displayError("No Major Selected");
+					}
 				};
 			});
 		});

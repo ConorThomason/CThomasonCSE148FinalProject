@@ -51,8 +51,6 @@ public class CourseEdit {
 	private void buildStage() {
 		editCourseStage = new Stage();
 		editCourseStage.setTitle("Edit a Course");
-		editCourseStage.setHeight(screenSizes.getScreenHeight() / 5.5);
-		editCourseStage.setWidth(screenSizes.getScreenWidth() / 7);
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();
@@ -68,7 +66,7 @@ public class CourseEdit {
 		inputRoot.setTop(courseDetails);
 		inputRoot.setBottom(buttonBox);
 		courseAddScene = new Scene(inputRoot, editCourseStage.getHeight(), editCourseStage.getWidth());
-		editCourseStage.setHeight(screenSizes.getScreenHeight() / 6.5);
+		editCourseStage.setHeight(screenSizes.getScreenHeight() / 5);
 		editCourseStage.setWidth(screenSizes.getScreenWidth() / 5);
 	}
 	private HBox buildDetails() {

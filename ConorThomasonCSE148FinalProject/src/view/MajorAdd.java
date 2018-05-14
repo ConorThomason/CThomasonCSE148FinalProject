@@ -41,8 +41,8 @@ public class MajorAdd {
 	}
 	private void buildStage() {
 		addMajorStage = new Stage();
-		addMajorStage.setTitle("Add a Course");
-		addMajorStage.setHeight(screenSizes.getScreenHeight() / 10);
+		addMajorStage.setTitle("Add a Major");
+		addMajorStage.setHeight(screenSizes.getScreenHeight() / 8);
 		addMajorStage.setWidth(screenSizes.getScreenWidth() / 7);
 	}
 	private void buildScene() {

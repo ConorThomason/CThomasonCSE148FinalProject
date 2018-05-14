@@ -44,8 +44,8 @@ public class TextbookAdd {
 	private void buildStage() {
 		addTextbookStage = new Stage();
 		addTextbookStage.setTitle("Add a Textbook");
-		addTextbookStage.setHeight(screenSizes.getScreenHeight() / 5.5);
-		addTextbookStage.setWidth(screenSizes.getScreenWidth() / 7);
+		addTextbookStage.setHeight(screenSizes.getScreenHeight() / 4);
+		addTextbookStage.setWidth(screenSizes.getScreenWidth() / 6);
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();

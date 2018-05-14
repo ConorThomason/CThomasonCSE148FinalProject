@@ -32,7 +32,7 @@ public class Start extends Application {
 		primaryStage.setTitle("Conor Thomason CSE148 Final Project");
 		ScreenSizes screenSizes = new ScreenSizes(primaryStage, screenSize, 0);
 		primaryStage.setHeight(screenSize.getHeight() / 1.75);
-		primaryStage.setWidth(screenSize.getWidth() / 2.8);
+		primaryStage.setWidth(screenSize.getWidth() / 1.5);
 		BorderPane root = new BorderPane();
 		AllBags allBags = new AllBags();
 		
@@ -101,8 +101,16 @@ public class Start extends Application {
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
-				allBags.save();	
-				Platform.exit();
+				Alert quitAlert = new Alert(AlertType.CONFIRMATION);
+				quitAlert.setHeaderText("Close confirmation");
+				quitAlert.setContentText("Are you sure you wish to quit? Any unsaved changes will be lost");
+				quitAlert.showAndWait();
+				if (quitAlert.getResult() == ButtonType.OK) {
+					Platform.exit();
+				}
+				else if (quitAlert.getResult() == ButtonType.CANCEL) {
+					we.consume();
+				}
 			}
 		});
 	}

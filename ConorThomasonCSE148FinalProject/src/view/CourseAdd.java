@@ -44,8 +44,8 @@ public class CourseAdd {
 	private void buildStage() {
 		addCourseStage = new Stage();
 		addCourseStage.setTitle("Add a Course");
-		addCourseStage.setHeight(screenSizes.getScreenHeight() / 6);
-		addCourseStage.setWidth(screenSizes.getScreenWidth() / 7);
+		addCourseStage.setHeight(screenSizes.getScreenHeight() / 5);
+		addCourseStage.setWidth(screenSizes.getScreenWidth() / 5);
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();

@@ -69,6 +69,7 @@ public class TopPane {
 		loadMenuItem = new MenuItem("Load All");
 		loadMenuItem.setOnAction(e ->{
 			allBags.load();
+			rebuildScene(screenSizes);
 		});
 		viewMenu = new Menu("View");
 		viewMainItem = new MenuItem("Main Menu");
@@ -85,32 +86,32 @@ public class TopPane {
 			String fileToImport = Util.getFile(stage);
 			if (fileToImport == null)
 				fileToImport = "DEFAULT";
-			rebuildScene(screenSizes);
 			allBags.getTextbookBag().importData(fileToImport);
+			rebuildScene(screenSizes);
 		});
 		importPeopleItem = new MenuItem("People");
 		importPeopleItem.setOnAction(e ->{
 			String fileToImport = Util.getFile(stage);
 			if (fileToImport == null)
 				fileToImport = "DEFAULT";
-			rebuildScene(screenSizes);
 			allBags.getPeopleBag().importData(fileToImport);
+			rebuildScene(screenSizes);
 		});
 		importCoursesItem = new MenuItem("Courses");
 		importCoursesItem.setOnAction(e ->{
 			String fileToImport = Util.getFile(stage);
 			if (fileToImport == null)
 				fileToImport = "DEFAULT";
-			rebuildScene(screenSizes);
 			allBags.getMasterCourseBag().importData(fileToImport);
+			rebuildScene(screenSizes);
 		});
 		importMajorsItem = new MenuItem("Majors");
 		importMajorsItem.setOnAction(e ->{
 			String fileToImport = Util.getFile(stage);
 			if (fileToImport == null)
 				fileToImport = "DEFAULT";
-			rebuildScene(screenSizes);
 			allBags.getAllMajorBags().importAllMajors(fileToImport);
+			rebuildScene(screenSizes);
 		});
 		
 		exportMenu = new Menu("Export");
@@ -144,16 +145,20 @@ public class TopPane {
 		int currentScene = screenSizes.getCurrentScene();
 		switch (currentScene) {
 		case 1:
-			viewPeopleItem.fire();
+			PeoplePane rebuildPeople = new PeoplePane(allBags, screenSizes, root);
+			root.setCenter(rebuildPeople.getPane());
 			break;
-		case 2:
-			viewCoursesItem.fire();
+		case 2://course
+			CoursePane rebuildCourse = new CoursePane(allBags, screenSizes, root);
+			root.setCenter(rebuildCourse.getPane());
 			break;
-		case 3:
-			viewTextbooksItem.fire();
+		case 3: //textbook
+			TextbookPane rebuildTextbook = new TextbookPane(allBags, screenSizes, root);
+			root.setCenter(rebuildTextbook.getPane());
 			break;
-		case 4:
-			viewMajorsItem.fire();
+		case 4: //major
+			MajorPane rebuildMajor = new MajorPane(allBags, screenSizes, root);
+			root.setCenter(rebuildMajor.getPane());
 			break;
 		}
 	}

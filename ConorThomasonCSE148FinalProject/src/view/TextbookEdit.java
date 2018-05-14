@@ -52,8 +52,8 @@ public class TextbookEdit {
 	private void buildStage() {
 		editTextbookStage = new Stage();
 		editTextbookStage.setTitle("Edit a Course");
-		editTextbookStage.setHeight(screenSizes.getScreenHeight() / 5.5);
-		editTextbookStage.setWidth(screenSizes.getScreenWidth() / 7);
+		editTextbookStage.setHeight(screenSizes.getScreenHeight() / 4);
+		editTextbookStage.setWidth(screenSizes.getScreenWidth() / 5.5);
 	}
 	private void buildScene() {
 		BorderPane inputRoot = new BorderPane();

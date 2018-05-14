@@ -73,12 +73,15 @@ public class CoursePane {
 		editButton = new Button("Edit");
 
 		editButton.setOnAction(e ->{
+			if (currentlySelected != null) {
 			courseEditStage = new CourseEdit(allBags, screenSizes, currentlySelected);
 			courseEditStage.getStage().showAndWait();
 			buildTable();
 			buildDetails();
 			buildPane();
 			root.setCenter(this.getPane());
+			} else
+				Util.displayError("No Course Selected");
 		});
 		addButton = new Button("Add");
 		addButton.setOnAction(e ->{
@@ -97,11 +100,15 @@ public class CoursePane {
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
+					try {
 					allBags.getMasterCourseBag().delete(currentlySelected.getCourseNumber());
 					buildTable();
 					buildDetails();
 					buildPane();
 					root.setCenter(this.getPane());
+					} catch (NullPointerException f) {
+						Util.displayError("No Course Selected");
+					}
 				};
 			});
 		});

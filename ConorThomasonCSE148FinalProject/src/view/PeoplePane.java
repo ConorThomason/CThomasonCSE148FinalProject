@@ -87,17 +87,21 @@ public class PeoplePane {
 		editButton = new Button("Edit");
 
 		editButton.setOnAction(e ->{
-			if (currentlySelected instanceof Student) {
-				personEditStage = new PersonEdit(allBags, screenSizes, (Student)currentlySelected);
+			if (currentlySelected != null) {
+				if (currentlySelected instanceof Student) {
+					personEditStage = new PersonEdit(allBags, screenSizes, (Student)currentlySelected);
+				}
+				else {
+					personEditStage = new PersonEdit(allBags, screenSizes, (Faculty)currentlySelected);
+				}
+				personEditStage.getStage().showAndWait();
+				buildTable();
+				buildDetails();
+				buildPane();
+				root.setCenter(this.getPane());
+			} else {
+				Util.displayError("No Person Selected");
 			}
-			else {
-				personEditStage = new PersonEdit(allBags, screenSizes, (Faculty)currentlySelected);
-			}
-			personEditStage.getStage().showAndWait();
-			buildTable();
-			buildDetails();
-			buildPane();
-			root.setCenter(this.getPane());
 		});
 		addButton = new Button("Add");
 		addButton.setOnAction(e ->{
@@ -116,11 +120,15 @@ public class PeoplePane {
 			alert.setContentText("Continue?");
 			alert.showAndWait().ifPresent(type -> {
 				if (type == ButtonType.OK) {
+					try {
 					allBags.getPeopleBag().delete(currentlySelected.getId());
 					buildTable();
 					buildDetails();
 					buildPane();
 					root.setCenter(this.getPane());
+					} catch (NullPointerException f) {
+						Util.displayError("No Person Selected");
+					}
 				};
 			});
 		});
@@ -216,25 +224,25 @@ public class PeoplePane {
 		details.setPadding(new Insets(5));
 		try {
 
-		Label firstName = new Label("First Name: ");
-		firstName.setStyle("-fx-font-weight: bold");
-		Label firstNameOutput = new Label(currentlySelected.getFirstName());
+			Label firstName = new Label("First Name: ");
+			firstName.setStyle("-fx-font-weight: bold");
+			Label firstNameOutput = new Label(currentlySelected.getFirstName());
 
-		Label lastName = new Label("Last Name: ");
-		lastName.setStyle("-fx-font-weight: bold");
-		Label lastNameOutput = new Label(currentlySelected.getLastName());
+			Label lastName = new Label("Last Name: ");
+			lastName.setStyle("-fx-font-weight: bold");
+			Label lastNameOutput = new Label(currentlySelected.getLastName());
 
-		Label id = new Label("ID: ");
-		id.setStyle("-fx-font-weight: bold");
-		Label idOutput = new Label(currentlySelected.getId());
+			Label id = new Label("ID: ");
+			id.setStyle("-fx-font-weight: bold");
+			Label idOutput = new Label(currentlySelected.getId());
 
-		Label phoneNumber = new Label("Phone Number: " );
-		phoneNumber.setStyle("-fx-font-weight: bold");
-		Label phoneNumberOutput = new Label(currentlySelected.getPhoneNumber());
+			Label phoneNumber = new Label("Phone Number: " );
+			phoneNumber.setStyle("-fx-font-weight: bold");
+			Label phoneNumberOutput = new Label(currentlySelected.getPhoneNumber());
 
-		mainDetails.getChildren().addAll(firstName, firstNameOutput, lastName, 
-				lastNameOutput, id, idOutput, phoneNumber, phoneNumberOutput);
-		return mainDetails;
+			mainDetails.getChildren().addAll(firstName, firstNameOutput, lastName, 
+					lastNameOutput, id, idOutput, phoneNumber, phoneNumberOutput);
+			return mainDetails;
 		}catch(NullPointerException e) {
 			Label statusLabel = new Label("No Person Selected");
 			mainDetails.getChildren().add(statusLabel);

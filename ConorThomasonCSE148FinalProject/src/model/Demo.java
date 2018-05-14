@@ -82,7 +82,6 @@ public class Demo {
 		allMajorBags.save();
 		allMajorBags.load();
 		allMajorBags.exportAllMajors();
-		System.out.println(allMajorBags.toString());
 //		generateData();
 //		personBag.exportData();
 //		Textbook textbook = mCourseBag.getCourse(4).getTextbookAssigned();
